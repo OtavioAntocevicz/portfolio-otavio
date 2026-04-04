@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "title": "Otávio Morais Antocevicz — Portfolio"
+  },
+  "nav": {
+    "about": "About",
+    "skills": "Skills",
+    "experience": "Experience",
+    "education": "Education",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "header": {
+    "themeLight": "Light mode",
+    "themeDark": "Dark mode",
+    "langPt": "Português",
+    "langEn": "English",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu"
+  },
+  "hero": {
+    "badge": "Open to opportunities",
+    "role": "Front-end Developer",
+    "ctaProjects": "View projects",
+    "ctaContact": "Get in touch"
+  },
+  "about": {
+    "title": "About",
+    "text": "Front-end developer with 3 years of experience in modern technologies such as React.js, Vue.js, Node.js, and more. Passionate about learning and building innovative solutions, I have worked on personal and professional projects that showcase my skills in web development and process automation."
+  },
+  "skills": {
+    "title": "Technologies & tools",
+    "subtitle": "Core strengths",
+    "frontend": "Front-end",
+    "frontendList": "HTML, CSS, JavaScript, React.js, Vue.js, TypeScript",
+    "backend": "Back-end",
+    "backendList": "Firebase, Node.js, PHP, MySQL, PostgreSQL, Docker",
+    "automation": "Automation & data",
+    "automationList": "Python, Power BI, data analysis, n8n",
+    "other": "Other",
+    "otherList": "Git/GitHub, Microsoft Office, GitFlow, agile methodologies, AI, FlutterFlow, WordPress"
+  },
+  "competencies": {
+    "title": "Skills & competencies",
+    "items": [
+      "Building websites and web apps with code, low code, and no code",
+      "Simple process automation and data analysis with Python",
+      "System and API integration",
+      "Agile methodologies: Scrum and Kanban for delivery and project management",
+      "Solutions with Firebase, AI chat tools, APIs, and platforms such as Power Automate",
+      "Soft skills: proactivity, organization, fast learning, problem solving, and communication"
+    ]
+  },
+  "highlights": {
+    "title": "Highlights",
+    "items": [
+      "Experience with automated monitoring of e-commerce operations",
+      "Ability to integrate and analyze data for effective solutions",
+      "Chatbot development with IBM Watson Assistant"
+    ]
+  },
+  "experience": {
+    "title": "Work experience",
+    "jce": {
+      "role": "E-commerce Assistant",
+      "company": "JCE",
+      "period": "Jul 2024 — Present",
+      "items": [
+        "E-commerce development (HOUP and Toyama)",
+        "Data updates, management, and integration fixes (customers, products, orders) across Linx, Plugg.to, and Pagar.me",
+        "Sales and pricing monitoring automation with Power BI and Python",
+        "Order integration fixes in Protheus (TOTVS)"
+      ]
+    },
+    "polinova": {
+      "role": "Warehouse Associate",
+      "company": "Polinova",
+      "period": "Apr 2024 — Jun 2024",
+      "items": [
+        "Stock control, storage, and logistics organization",
+        "Cost reduction and space optimization"
+      ]
+    }
+  },
+  "education": {
+    "title": "Education",
+    "degree": "Systems Analysis and Development",
+    "school": "PUCPR",
+    "status": "In progress"
+  },
+  "projects": {
+    "title": "Featured projects",
+    "moreGithub": "More on GitHub",
+    "items": [
+      {
+        "id": "calculadora-basica",
+        "name": "Basic calculator",
+        "desc": "UI and logic with React, Vite, and CSS."
+      },
+      {
+        "id": "explorer-lab",
+        "name": "Explorer Lab",
+        "desc": "Card registration with HTML, CSS, and DOM manipulation in JavaScript (Rocketseat)."
+      },
+      {
+        "id": "buscador-cep",
+        "name": "ZIP code lookup",
+        "desc": "API integration using React and Vite."
+      },
+      {
+        "id": "password-generator",
+        "name": "Password Generator",
+        "desc": "Built with React and Vite."
+      },
+      {
+        "id": "toyama-ecommerce",
+        "name": "Toyama E-commerce",
+        "desc": "React and Firebase (in development)."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Let’s talk about your next project.",
+    "email": "Email",
+    "phone": "Phone / WhatsApp",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
+  },
+  "footer": {
+    "built": "Built with React and Vite"
+  }
+}

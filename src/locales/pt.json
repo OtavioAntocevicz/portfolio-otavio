@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "title": "Otávio Morais Antocevicz — Portfólio"
+  },
+  "nav": {
+    "about": "Sobre",
+    "skills": "Skills",
+    "experience": "Carreira",
+    "education": "Formação",
+    "projects": "Projetos",
+    "contact": "Contato"
+  },
+  "header": {
+    "themeLight": "Modo claro",
+    "themeDark": "Modo escuro",
+    "langPt": "Português",
+    "langEn": "English",
+    "menuOpen": "Abrir menu",
+    "menuClose": "Fechar menu"
+  },
+  "hero": {
+    "badge": "Disponível para oportunidades",
+    "role": "Desenvolvedor Front-end",
+    "ctaProjects": "Ver projetos",
+    "ctaContact": "Fale comigo"
+  },
+  "about": {
+    "title": "Sobre",
+    "text": "Desenvolvedor front-end com 3 anos de experiência em tecnologias modernas como React.js, Vue.js, Node.js, entre outras. Apaixonado por aprender e criar soluções inovadoras, tenho experiência em projetos pessoais e profissionais que demonstram minhas habilidades em desenvolvimento web e automação de processos."
+  },
+  "skills": {
+    "title": "Tecnologias e ferramentas",
+    "subtitle": "Principal conhecimento",
+    "frontend": "Front-end",
+    "frontendList": "HTML, CSS, JavaScript, React.js, Vue.js, TypeScript",
+    "backend": "Back-end",
+    "backendList": "Firebase, Node.js, PHP, MySQL, PostgreSQL, Docker",
+    "automation": "Automação e dados",
+    "automationList": "Python, Power BI, análise de dados, n8n",
+    "other": "Outros",
+    "otherList": "Git/GitHub, Pacote Office, GitFlow, metodologias ágeis, IA, FlutterFlow, WordPress"
+  },
+  "competencies": {
+    "title": "Habilidades e competências",
+    "items": [
+      "Desenvolvimento de sites e aplicações web com code, low code e no code",
+      "Automação de processos simples e análise de dados com Python",
+      "Integração de sistemas e APIs",
+      "Metodologias ágeis: Scrum e Kanban para desenvolvimento e gestão de projetos",
+      "Soluções com Firebase, chats com IA, APIs e plataformas como Power Automate",
+      "Soft skills: proatividade, organização, rápida aprendizagem, resolução de problemas e comunicação"
+    ]
+  },
+  "highlights": {
+    "title": "Diferenciais",
+    "items": [
+      "Experiência com monitoramento automatizado de e-commerces",
+      "Capacidade de integrar e analisar dados para soluções eficazes",
+      "Criação de chatbot com IBM Watson Assistant"
+    ]
+  },
+  "experience": {
+    "title": "Experiência profissional",
+    "jce": {
+      "role": "Assistente de E-commerce",
+      "company": "JCE",
+      "period": "07/2024 — Atualmente",
+      "items": [
+        "Desenvolvimento de e-commerces (HOUP e Toyama)",
+        "Atualização, gerenciamento de dados e correção de integrações (clientes, produtos, pedidos) nos sistemas Linx, Plugg.to e Pagar.me",
+        "Automação de monitoramento de vendas e preços com Power BI e Python",
+        "Correção de integração de pedidos no sistema Protheus (TOTVS)"
+      ]
+    },
+    "polinova": {
+      "role": "Estoquista",
+      "company": "Polinova",
+      "period": "04/2024 — 06/2024",
+      "items": [
+        "Controle de estoque, armazenamento e organização logística",
+        "Redução de custos e otimização de espaços"
+      ]
+    }
+  },
+  "education": {
+    "title": "Formação",
+    "degree": "Análise e Desenvolvimento de Sistemas",
+    "school": "PUCPR",
+    "status": "Em andamento"
+  },
+  "projects": {
+    "title": "Projetos relevantes",
+    "moreGithub": "Mais projetos no GitHub",
+    "items": [
+      {
+        "id": "calculadora-basica",
+        "name": "Calculadora básica",
+        "desc": "Interface e lógica com React, Vite e CSS."
+      },
+      {
+        "id": "explorer-lab",
+        "name": "Explorer Lab",
+        "desc": "Cadastro de cartão com HTML, CSS e manipulação do DOM com JavaScript (Rocketseat)."
+      },
+      {
+        "id": "buscador-cep",
+        "name": "Buscador de CEP",
+        "desc": "Integração com API utilizando React e Vite."
+      },
+      {
+        "id": "password-generator",
+        "name": "Password Generator",
+        "desc": "Gerador de senhas com React e Vite."
+      },
+      {
+        "id": "toyama-ecommerce",
+        "name": "Toyama E-commerce",
+        "desc": "React e Firebase (em desenvolvimento)."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contato",
+    "subtitle": "Vamos conversar sobre seu próximo projeto.",
+    "email": "E-mail",
+    "phone": "Telefone / WhatsApp",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
+  },
+  "footer": {
+    "built": "Feito com React e Vite"
+  }
+}
