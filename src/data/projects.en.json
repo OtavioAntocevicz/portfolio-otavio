@@ -1,0 +1,57 @@
+[
+  {
+    "id": "calculadora-basica",
+    "name": "Basic calculator",
+    "image": "/Img-projetos/calculadora-basica.png",
+    "imageAlt": "Screenshot of the basic calculator",
+    "github": "https://github.com/otavioantocevicz/Calculadora-Basica",
+    "site": "",
+    "desc": "UI and logic with React, Vite, and CSS.",
+    "languages": ["React", "Vite", "CSS", "JavaScript"],
+    "inspiration": "Practice React state, responsive layout, and shipping with Vite — a classic project to solidify front-end fundamentals."
+  },
+  {
+    "id": "explorer-lab",
+    "name": "Explorer Lab",
+    "image": "/Img-projetos/explorer-lab.png",
+    "imageAlt": "Screenshot of Explorer Lab",
+    "github": "https://github.com/otavioantocevicz/Explorer-Lab",
+    "site": "",
+    "desc": "Card registration with HTML, CSS, and DOM manipulation in JavaScript (Rocketseat).",
+    "languages": ["HTML", "CSS", "JavaScript"],
+    "inspiration": "Rocketseat Explorer immersion: card form with masking, visual validation, and DOM manipulation without a framework."
+  },
+  {
+    "id": "buscador-cep",
+    "name": "ZIP code lookup",
+    "image": "/Img-projetos/buscador-cep.png",
+    "imageAlt": "Screenshot of the ZIP code lookup",
+    "github": "https://github.com/otavioantocevicz/Buscador-de-CEP",
+    "site": "",
+    "desc": "API integration using React and Vite.",
+    "languages": ["React", "Vite", "JavaScript", "REST API"],
+    "inspiration": "Consume a public API (ViaCEP), handle loading and errors, and display address data in a simple, useful way."
+  },
+  {
+    "id": "password-generator",
+    "name": "Password Generator",
+    "image": "/Img-projetos/password-generator.png",
+    "imageAlt": "Screenshot of the password generator",
+    "github": "https://github.com/otavioantocevicz/Password-Generator",
+    "site": "",
+    "desc": "Built with React and Vite.",
+    "languages": ["React", "Vite", "CSS", "JavaScript"],
+    "inspiration": "Explore random generation logic, length options, and character types with a straightforward UI."
+  },
+  {
+    "id": "toyama-ecommerce",
+    "name": "Toyama E-commerce",
+    "image": "/Img-projetos/toyama-ecommerce.png",
+    "imageAlt": "Screenshot of Toyama E-commerce",
+    "github": "https://github.com/otavioantocevicz/Toyama-Ecommerce",
+    "site": "",
+    "desc": "React and Firebase (in development).",
+    "languages": ["React", "Firebase", "JavaScript"],
+    "inspiration": "Professional e-commerce experience: evolve a prototype with authentication, catalog, and cloud persistence."
+  }
+]

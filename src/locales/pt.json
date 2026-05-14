@@ -1,8 +1,14 @@
 {
   "meta": {
-    "title": "Otávio Morais Antocevicz — Portfólio"
+    "title": "Otávio Morais Antocevicz — Portfólio",
+    "description": "Otávio Morais Antocevicz — Desenvolvedor Front-end. React, Vue, Node e mais."
+  },
+  "a11y": {
+    "skipToContent": "Pular para o conteúdo"
   },
   "nav": {
+    "ariaMain": "Principal",
+    "ariaMobile": "Menu principal",
     "about": "Sobre",
     "skills": "Skills",
     "experience": "Carreira",
@@ -13,6 +19,7 @@
   "header": {
     "themeLight": "Modo claro",
     "themeDark": "Modo escuro",
+    "langGroup": "Idioma",
     "langPt": "Português",
     "langEn": "English",
     "menuOpen": "Abrir menu",
@@ -91,39 +98,22 @@
   "projects": {
     "title": "Projetos relevantes",
     "moreGithub": "Mais projetos no GitHub",
-    "items": [
-      {
-        "id": "calculadora-basica",
-        "name": "Calculadora básica",
-        "desc": "Interface e lógica com React, Vite e CSS."
-      },
-      {
-        "id": "explorer-lab",
-        "name": "Explorer Lab",
-        "desc": "Cadastro de cartão com HTML, CSS e manipulação do DOM com JavaScript (Rocketseat)."
-      },
-      {
-        "id": "buscador-cep",
-        "name": "Buscador de CEP",
-        "desc": "Integração com API utilizando React e Vite."
-      },
-      {
-        "id": "password-generator",
-        "name": "Password Generator",
-        "desc": "Gerador de senhas com React e Vite."
-      },
-      {
-        "id": "toyama-ecommerce",
-        "name": "Toyama E-commerce",
-        "desc": "React e Firebase (em desenvolvimento)."
-      }
-    ]
+    "cardHint": "Ver detalhe",
+    "modal": {
+      "close": "Fechar",
+      "languages": "Tecnologias",
+      "links": "Links",
+      "inspiration": "Inspiração",
+      "linkGithub": "GitHub",
+      "linkSite": "Visite o site"
+    }
   },
   "contact": {
     "title": "Contato",
     "subtitle": "Vamos conversar sobre seu próximo projeto.",
     "email": "E-mail",
     "phone": "Telefone / WhatsApp",
+    "whatsapp": "WhatsApp",
     "github": "GitHub",
     "linkedin": "LinkedIn"
   },

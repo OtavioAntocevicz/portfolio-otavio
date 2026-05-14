@@ -1,8 +1,14 @@
 {
   "meta": {
-    "title": "Otávio Morais Antocevicz — Portfolio"
+    "title": "Otávio Morais Antocevicz — Portfolio",
+    "description": "Otávio Morais Antocevicz — Front-end developer. React, Vue, Node, and more."
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content"
   },
   "nav": {
+    "ariaMain": "Main",
+    "ariaMobile": "Main menu",
     "about": "About",
     "skills": "Skills",
     "experience": "Experience",
@@ -13,6 +19,7 @@
   "header": {
     "themeLight": "Light mode",
     "themeDark": "Dark mode",
+    "langGroup": "Language",
     "langPt": "Português",
     "langEn": "English",
     "menuOpen": "Open menu",
@@ -91,39 +98,22 @@
   "projects": {
     "title": "Featured projects",
     "moreGithub": "More on GitHub",
-    "items": [
-      {
-        "id": "calculadora-basica",
-        "name": "Basic calculator",
-        "desc": "UI and logic with React, Vite, and CSS."
-      },
-      {
-        "id": "explorer-lab",
-        "name": "Explorer Lab",
-        "desc": "Card registration with HTML, CSS, and DOM manipulation in JavaScript (Rocketseat)."
-      },
-      {
-        "id": "buscador-cep",
-        "name": "ZIP code lookup",
-        "desc": "API integration using React and Vite."
-      },
-      {
-        "id": "password-generator",
-        "name": "Password Generator",
-        "desc": "Built with React and Vite."
-      },
-      {
-        "id": "toyama-ecommerce",
-        "name": "Toyama E-commerce",
-        "desc": "React and Firebase (in development)."
-      }
-    ]
+    "cardHint": "View details",
+    "modal": {
+      "close": "Close",
+      "languages": "Technologies",
+      "links": "Links",
+      "inspiration": "Inspiration",
+      "linkGithub": "GitHub",
+      "linkSite": "Visit the site"
+    }
   },
   "contact": {
     "title": "Contact",
     "subtitle": "Let’s talk about your next project.",
     "email": "Email",
     "phone": "Phone / WhatsApp",
+    "whatsapp": "WhatsApp",
     "github": "GitHub",
     "linkedin": "LinkedIn"
   },

@@ -1,0 +1,95 @@
+[
+  {
+    "id": "calculadora-basica",
+    "name": "Calculadora básica",
+    "image": "/Img-projetos/calculadora-basica.png",
+    "imageAlt": "Captura de tela da calculadora básica",
+    "github": "https://github.com/otavioantocevicz/Calculadora-Basica",
+    "site": "",
+    "desc": "Interface e lógica com React, Vite e CSS.",
+    "languages": [
+      "React",
+      "Vite",
+      "CSS",
+      "JavaScript"
+    ],
+    "inspiration": "Praticar estado em React, layout responsivo e publicação com Vite — um projeto clássico para consolidar fundamentos de front-end."
+  },
+  {
+    "id": "explorer-lab",
+    "name": "Explorer Lab",
+    "image": "/Img-projetos/explorer-lab.png",
+    "imageAlt": "Captura de tela do Explorer Lab",
+    "github": "https://github.com/otavioantocevicz/Explorer-Lab",
+    "site": "",
+    "desc": "Cadastro de cartão com HTML, CSS e manipulação do DOM com JavaScript (Rocketseat).",
+    "languages": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "inspiration": "Imersão Explorer da Rocketseat: formulário de cartão com máscara, validação visual e manipulação do DOM sem framework."
+  },
+  {
+    "id": "buscador-cep",
+    "name": "Buscador de CEP",
+    "image": "/Img-projetos/buscador-cep.png",
+    "imageAlt": "Captura de tela do buscador de CEP",
+    "github": "https://github.com/otavioantocevicz/Buscador-de-CEP",
+    "site": "",
+    "desc": "Integração com API utilizando React e Vite.",
+    "languages": [
+      "React",
+      "Vite",
+      "JavaScript",
+      "REST API"
+    ],
+    "inspiration": "Consumir uma API pública (ViaCEP), tratar loading e erro e exibir dados de endereço de forma simples e útil."
+  },
+  {
+    "id": "password-generator",
+    "name": "Password Generator",
+    "image": "/Img-projetos/password-generator.png",
+    "imageAlt": "Captura de tela do gerador de senhas",
+    "github": "https://github.com/otavioantocevicz/Password-Generator",
+    "site": "",
+    "desc": "Gerador de senhas com React e Vite.",
+    "languages": [
+      "React",
+      "Vite",
+      "CSS",
+      "JavaScript"
+    ],
+    "inspiration": "Explorar lógica de geração aleatória, opções de tamanho e tipos de caracteres com uma UI direta."
+  },
+  {
+    "id": "toyama-ecommerce",
+    "name": "Toyama E-commerce",
+    "image": "/Img-projetos/toyama-ecommerce.png",
+    "imageAlt": "Captura de tela do Toyama E-commerce",
+    "github": "https://github.com/otavioantocevicz/Toyama-Ecommerce",
+    "site": "",
+    "desc": "React e Firebase (em desenvolvimento).",
+    "languages": [
+      "React",
+      "Firebase",
+      "JavaScript"
+    ],
+    "inspiration": "Experiência profissional com e-commerce: evoluir um protótipo com autenticação, catálogo e persistência em nuvem."
+  },
+  {
+    "id": "CardapioPro",
+    "name": "Cardápio Pro",
+    "image": "/Img-projetos/CardapioPro.png",
+    "imageAlt": "Captura de tela do Cardápio Pro",
+    "github": "https://github.com/OtavioAntocevicz/CardapioPro",
+    "site": "https://cardapio-pro.vercel.app/",
+    "desc": "Cardápio Digitar para estabelecimentos de vendas",
+    "languages": [
+      "React",
+      "Firebase",
+      "JavaScript"
+    ],
+    "inspiration": "Tive de inspiração esse projeto entrar no mundo dos SaaS para entender como que funciona a criação, desenvolvimento, publicação e gestão de um SaaS."
+  }
+]

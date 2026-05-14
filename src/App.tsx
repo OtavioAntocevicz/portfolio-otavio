@@ -1,4 +1,5 @@
 import {
+  ExternalLink,
   Github,
   Linkedin,
   Mail,
@@ -9,25 +10,162 @@ import {
   Sun,
   X,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type RefObject,
+  type SyntheticEvent,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import './App.css'
 import { useTheme } from './contexts/ThemeContext.tsx'
-import { profileLinks, projectRepos } from './data/links.ts'
+import { profileLinks } from './data/links.ts'
+import projectsEn from './data/projects.en.json'
+import projectsPtBr from './data/projects.pt-br.json'
 import i18n, { setStoredLanguage } from './i18n.ts'
+import { setPageMeta } from './setPageMeta.ts'
 
-type ProjectItem = { id: string; name: string; desc: string }
+const PROJECT_FALLBACK_IMAGE = '/Img-projetos/placeholder.svg'
+
+function onProjectCardImageError(e: SyntheticEvent<HTMLImageElement>) {
+  const el = e.currentTarget
+  if (el.src.includes('placeholder.svg')) return
+  el.src = PROJECT_FALLBACK_IMAGE
+}
+
+type ProjectEntry = {
+  id: string
+  name: string
+  image: string
+  imageAlt: string
+  github: string
+  site: string
+  desc: string
+  languages: string[]
+  inspiration: string
+}
 
 function App() {
   const { t } = useTranslation()
   const { theme, toggleTheme } = useTheme()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeProjectId, setActiveProjectId] = useState<string | null>(null)
+  const menuBtnRef = useRef<HTMLButtonElement>(null)
+  const projectModalCloseRef = useRef<HTMLButtonElement>(null)
+  const firstMobileNavRef = useRef<HTMLAnchorElement>(null)
+  const prevMenuOpen = useRef(menuOpen)
   const lng = i18n.language.startsWith('en') ? 'en' : 'pt'
 
+  const closeProjectModal = useCallback(() => {
+    setActiveProjectId((current) => {
+      if (current) {
+        requestAnimationFrame(() => {
+          document
+            .getElementById(`project-trigger-${current}`)
+            ?.focus({ preventScroll: true })
+        })
+      }
+      return null
+    })
+  }, [])
+
   useEffect(() => {
-    document.title = t('meta.title')
     document.documentElement.lang = lng === 'en' ? 'en' : 'pt-BR'
+    setPageMeta(t('meta.title'), t('meta.description'))
   }, [lng, t])
+
+  useEffect(() => {
+    if (menuOpen) {
+      const id = requestAnimationFrame(() => firstMobileNavRef.current?.focus())
+      return () => cancelAnimationFrame(id)
+    }
+  }, [menuOpen])
+
+  useEffect(() => {
+    if (prevMenuOpen.current && !menuOpen) {
+      menuBtnRef.current?.focus()
+    }
+    prevMenuOpen.current = menuOpen
+  }, [menuOpen])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [menuOpen])
+
+  useEffect(() => {
+    const lock = menuOpen || activeProjectId !== null
+    if (!lock) return
+
+    const scrollY = window.scrollY
+    const scrollbarGap = window.innerWidth - document.documentElement.clientWidth
+    const prevBody = {
+      position: document.body.style.position,
+      top: document.body.style.top,
+      left: document.body.style.left,
+      right: document.body.style.right,
+      width: document.body.style.width,
+      paddingRight: document.body.style.paddingRight,
+    }
+    const prevHtmlOverflow = document.documentElement.style.overflow
+
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollY}px`
+    document.body.style.left = '0'
+    document.body.style.right = '0'
+    document.body.style.width = '100%'
+    if (scrollbarGap > 0) {
+      document.body.style.paddingRight = `${scrollbarGap}px`
+    }
+    document.documentElement.style.overflow = 'hidden'
+
+    return () => {
+      const html = document.documentElement
+      const prevScrollBehavior = html.style.scrollBehavior
+      html.style.scrollBehavior = 'auto'
+
+      document.body.style.position = prevBody.position
+      document.body.style.top = prevBody.top
+      document.body.style.left = prevBody.left
+      document.body.style.right = prevBody.right
+      document.body.style.width = prevBody.width
+      document.body.style.paddingRight = prevBody.paddingRight
+      document.documentElement.style.overflow = prevHtmlOverflow
+      window.scrollTo(0, scrollY)
+
+      html.style.scrollBehavior = prevScrollBehavior
+    }
+  }, [menuOpen, activeProjectId])
+
+  useEffect(() => {
+    if (!activeProjectId) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeProjectModal()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [activeProjectId, closeProjectModal])
+
+  useEffect(() => {
+    if (!activeProjectId) return
+    projectModalCloseRef.current?.focus()
+  }, [activeProjectId])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 960px)')
+    const onChange = () => {
+      if (mq.matches) setMenuOpen(false)
+    }
+    mq.addEventListener('change', onChange)
+    onChange()
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   const competencyItems = t('competencies.items', {
     returnObjects: true,
@@ -39,33 +177,38 @@ function App() {
   const polinovaItems = t('experience.polinova.items', {
     returnObjects: true,
   }) as string[]
-  const projectItems = t('projects.items', {
-    returnObjects: true,
-  }) as ProjectItem[]
+  const projectItems = (
+    lng === 'en' ? projectsEn : projectsPtBr
+  ) as ProjectEntry[]
+  const activeProject = activeProjectId
+    ? projectItems.find((p) => p.id === activeProjectId)
+    : undefined
 
   const switchLang = (next: 'pt' | 'en') => {
     setStoredLanguage(next)
     setMenuOpen(false)
   }
 
-  const nav = (
+  const closeMenu = () => setMenuOpen(false)
+
+  const navLinks = (firstRef?: RefObject<HTMLAnchorElement | null>) => (
     <>
-      <a href="#sobre" onClick={() => setMenuOpen(false)}>
+      <a ref={firstRef} href="#sobre" onClick={closeMenu}>
         {t('nav.about')}
       </a>
-      <a href="#skills" onClick={() => setMenuOpen(false)}>
+      <a href="#skills" onClick={closeMenu}>
         {t('nav.skills')}
       </a>
-      <a href="#experiencia" onClick={() => setMenuOpen(false)}>
+      <a href="#experiencia" onClick={closeMenu}>
         {t('nav.experience')}
       </a>
-      <a href="#formacao" onClick={() => setMenuOpen(false)}>
+      <a href="#formacao" onClick={closeMenu}>
         {t('nav.education')}
       </a>
-      <a href="#projetos" onClick={() => setMenuOpen(false)}>
+      <a href="#projetos" onClick={closeMenu}>
         {t('nav.projects')}
       </a>
-      <a href="#contato" onClick={() => setMenuOpen(false)}>
+      <a href="#contato" onClick={closeMenu}>
         {t('nav.contact')}
       </a>
     </>
@@ -73,6 +216,16 @@ function App() {
 
   return (
     <div className="app">
+      {menuOpen ? (
+        <div
+          className="nav-backdrop"
+          aria-hidden
+          onClick={() => setMenuOpen(false)}
+        />
+      ) : null}
+      <a className="skip-link" href="#top">
+        {t('a11y.skipToContent')}
+      </a>
       <header className="header">
         <div className="header__inner">
           <a className="header__brand" href="#top">
@@ -81,17 +234,21 @@ function App() {
             dev
           </a>
 
-          <nav className="header__nav header__nav--desktop" aria-label="Principal">
-            {nav}
+          <nav
+            className="header__nav header__nav--desktop"
+            aria-label={t('nav.ariaMain')}
+          >
+            {navLinks()}
           </nav>
 
           <div className="header__actions">
-            <div className="lang-toggle" role="group" aria-label="Idioma">
+            <div className="lang-toggle" role="group" aria-label={t('header.langGroup')}>
               <button
                 type="button"
                 className={lng === 'pt' ? 'is-active' : ''}
                 onClick={() => switchLang('pt')}
                 aria-pressed={lng === 'pt'}
+                aria-label={t('header.langPt')}
               >
                 PT
               </button>
@@ -100,6 +257,7 @@ function App() {
                 className={lng === 'en' ? 'is-active' : ''}
                 onClick={() => switchLang('en')}
                 aria-pressed={lng === 'en'}
+                aria-label={t('header.langEn')}
               >
                 EN
               </button>
@@ -121,6 +279,7 @@ function App() {
             </button>
 
             <button
+              ref={menuBtnRef}
               type="button"
               className="icon-btn header__menu-btn"
               aria-expanded={menuOpen}
@@ -137,9 +296,13 @@ function App() {
           id="mobile-nav"
           className={`header__drawer ${menuOpen ? 'is-open' : ''}`}
           aria-hidden={!menuOpen}
+          inert={!menuOpen ? true : undefined}
         >
-          <nav className="header__nav header__nav--mobile" aria-label="Mobile">
-            {nav}
+          <nav
+            className="header__nav header__nav--mobile"
+            aria-label={t('nav.ariaMobile')}
+          >
+            {navLinks(firstMobileNavRef)}
           </nav>
         </div>
       </header>
@@ -271,22 +434,37 @@ function App() {
           <div className="section__inner">
             <h2 className="section__title">{t('projects.title')}</h2>
             <div className="project-grid">
-              {projectItems.map((p) => {
-                const href = projectRepos[p.id] ?? profileLinks.github
-                return (
-                  <a
-                    key={p.id}
-                    className="card project-card"
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
+              {projectItems.map((p) => (
+                <button
+                  key={p.id}
+                  id={`project-trigger-${p.id}`}
+                  type="button"
+                  className="card project-card"
+                  aria-haspopup="dialog"
+                  aria-expanded={activeProjectId === p.id}
+                  aria-controls="project-dialog"
+                  onClick={() => setActiveProjectId(p.id)}
+                >
+                  <div className="project-card__media">
+                    <img
+                      src={p.image}
+                      alt={p.imageAlt}
+                      width={800}
+                      height={450}
+                      loading="lazy"
+                      decoding="async"
+                      className="project-card__img"
+                      onError={onProjectCardImageError}
+                    />
+                  </div>
+                  <div className="project-card__meta">
                     <h3>{p.name}</h3>
-                    <p>{p.desc}</p>
-                    <span className="project-card__link">GitHub →</span>
-                  </a>
-                )
-              })}
+                    <span className="project-card__link">
+                      {t('projects.cardHint')} →
+                    </span>
+                  </div>
+                </button>
+              ))}
             </div>
             <p className="projects-more">
               <a href={profileLinks.github} target="_blank" rel="noreferrer noopener">
@@ -326,7 +504,7 @@ function App() {
                 rel="noreferrer noopener"
               >
                 <MessageCircle size={22} aria-hidden />
-                <span className="contact-card__label">WhatsApp</span>
+                <span className="contact-card__label">{t('contact.whatsapp')}</span>
                 <span className="contact-card__value">
                   {profileLinks.phoneDisplay}
                 </span>
@@ -357,6 +535,88 @@ function App() {
           </div>
         </section>
       </main>
+
+      {activeProject ? (
+        <>
+          <div
+            className="project-modal-backdrop"
+            aria-hidden
+            onClick={closeProjectModal}
+          />
+          <div
+            id="project-dialog"
+            className="project-modal card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-modal-title"
+          >
+            <header className="project-modal__head">
+              <h2 id="project-modal-title" className="project-modal__title">
+                {activeProject.name}
+              </h2>
+              <button
+                ref={projectModalCloseRef}
+                type="button"
+                className="icon-btn project-modal__close"
+                onClick={closeProjectModal}
+                aria-label={t('projects.modal.close')}
+              >
+                <X size={22} strokeWidth={2} />
+              </button>
+            </header>
+            <div className="project-modal__body">
+              <p className="project-modal__desc">{activeProject.desc}</p>
+
+              <section className="project-modal__block" aria-labelledby="pm-lang">
+                <h3 id="pm-lang" className="project-modal__label">
+                  {t('projects.modal.languages')}
+                </h3>
+                <ul className="project-modal__tags">
+                  {activeProject.languages.map((lang) => (
+                    <li key={lang}>{lang}</li>
+                  ))}
+                </ul>
+              </section>
+
+              <section className="project-modal__block" aria-labelledby="pm-links">
+                <h3 id="pm-links" className="project-modal__label">
+                  {t('projects.modal.links')}
+                </h3>
+                <div className="project-modal__links">
+                  <a
+                    className="btn btn--ghost project-modal__ext"
+                    href={activeProject.github.trim() || profileLinks.github}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <Github size={18} aria-hidden />
+                    {t('projects.modal.linkGithub')}
+                    <ExternalLink size={16} className="project-modal__ext-ico" aria-hidden />
+                  </a>
+                  {activeProject.site.trim() ? (
+                    <a
+                      className="btn btn--ghost project-modal__ext"
+                      href={activeProject.site.trim()}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      {t('projects.modal.linkSite')}
+                      <ExternalLink size={16} className="project-modal__ext-ico" aria-hidden />
+                    </a>
+                  ) : null}
+                </div>
+              </section>
+
+              <section className="project-modal__block" aria-labelledby="pm-insp">
+                <h3 id="pm-insp" className="project-modal__label">
+                  {t('projects.modal.inspiration')}
+                </h3>
+                <p className="project-modal__inspiration">{activeProject.inspiration}</p>
+              </section>
+            </div>
+          </div>
+        </>
+      ) : null}
 
       <footer className="footer">
         <p>{t('footer.built')}</p>
