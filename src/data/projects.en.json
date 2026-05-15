@@ -1,57 +1,68 @@
 [
   {
-    "id": "calculadora-basica",
-    "name": "Basic calculator",
-    "image": "/Img-projetos/calculadora-basica.png",
-    "imageAlt": "Screenshot of the basic calculator",
-    "github": "https://github.com/otavioantocevicz/Calculadora-Basica",
-    "site": "",
-    "desc": "UI and logic with React, Vite, and CSS.",
-    "languages": ["React", "Vite", "CSS", "JavaScript"],
-    "inspiration": "Practice React state, responsive layout, and shipping with Vite — a classic project to solidify front-end fundamentals."
+    "id": "CopySellAI",
+    "name": "CopySell AI",
+    "image": "/Img-projetos/CopySellAI.png",
+    "imageAlt": "CopySell AI screenshot",
+    "github": "https://github.com/OtavioAntocevicz/CopySell-AI",
+    "site": "https://copy-sell-ai.vercel.app/",
+    "desc": "SaaS for generating marketplace listings with AI",
+    "languages": ["Next.js", "TypeScript", "Supabase", "Gemini AI"],
+    "inspiration": "I wanted to explore building a full SaaS with artificial intelligence, combining AI-powered content generation with a plans system, credits, and an admin dashboard."
   },
   {
-    "id": "explorer-lab",
-    "name": "Explorer Lab",
-    "image": "/Img-projetos/explorer-lab.png",
-    "imageAlt": "Screenshot of Explorer Lab",
-    "github": "https://github.com/otavioantocevicz/Explorer-Lab",
+    "id": "SprintPro",
+    "name": "Sprint Pro",
+    "image": "/Img-projetos/SprintPro.png",
+    "imageAlt": "Sprint Pro screenshot",
+    "github": "https://github.com/OtavioAntocevicz/SprintPro",
     "site": "",
-    "desc": "Card registration with HTML, CSS, and DOM manipulation in JavaScript (Rocketseat).",
-    "languages": ["HTML", "CSS", "JavaScript"],
-    "inspiration": "Rocketseat Explorer immersion: card form with masking, visual validation, and DOM manipulation without a framework."
+    "desc": "SaaS task management platform with Kanban, organization permissions and reports",
+    "languages": ["React", "TypeScript", "Node.js", "PostgreSQL"],
+    "inspiration": "I wanted to build a team management platform from scratch, with a decoupled frontend and backend architecture, JWT authentication, multi-tenant control and real features like invites, Kanban drag and drop and an online presence system."
   },
   {
-    "id": "buscador-cep",
-    "name": "ZIP code lookup",
-    "image": "/Img-projetos/buscador-cep.png",
-    "imageAlt": "Screenshot of the ZIP code lookup",
-    "github": "https://github.com/otavioantocevicz/Buscador-de-CEP",
-    "site": "",
-    "desc": "API integration using React and Vite.",
-    "languages": ["React", "Vite", "JavaScript", "REST API"],
-    "inspiration": "Consume a public API (ViaCEP), handle loading and errors, and display address data in a simple, useful way."
+    "id": "CatalogoInteligente",
+    "name": "Smart Catalog",
+    "image": "/Img-projetos/CatalogoInteligente.png",
+    "imageAlt": "Smart Catalog screenshot",
+    "github": "https://github.com/OtavioAntocevicz/Catalogo-Inteligente-master",
+    "site": "https://catalogo-inteligente-master.vercel.app",
+    "desc": "Product catalog management and analysis with AI-powered insights",
+    "languages": ["React", "Firebase", "JavaScript", "Gemini AI"],
+    "inspiration": "I built this to understand how to create a complete B2B application, with company-based authentication, an analytics dashboard and AI to generate insights about a product portfolio."
   },
   {
-    "id": "password-generator",
-    "name": "Password Generator",
-    "image": "/Img-projetos/password-generator.png",
-    "imageAlt": "Screenshot of the password generator",
-    "github": "https://github.com/otavioantocevicz/Password-Generator",
-    "site": "",
-    "desc": "Built with React and Vite.",
-    "languages": ["React", "Vite", "CSS", "JavaScript"],
-    "inspiration": "Explore random generation logic, length options, and character types with a straightforward UI."
-  },
-  {
-    "id": "toyama-ecommerce",
-    "name": "Toyama E-commerce",
-    "image": "/Img-projetos/toyama-ecommerce.png",
-    "imageAlt": "Screenshot of Toyama E-commerce",
-    "github": "https://github.com/otavioantocevicz/Toyama-Ecommerce",
-    "site": "",
-    "desc": "React and Firebase (in development).",
+    "id": "CardapioPro",
+    "name": "Cardápio Pro",
+    "image": "/Img-projetos/CardapioPro.png",
+    "imageAlt": "Cardápio Pro screenshot",
+    "github": "https://github.com/OtavioAntocevicz/CardapioPro",
+    "site": "https://cardapio-pro.vercel.app/",
+    "desc": "Digital menu for food and retail businesses",
     "languages": ["React", "Firebase", "JavaScript"],
-    "inspiration": "Professional e-commerce experience: evolve a prototype with authentication, catalog, and cloud persistence."
+    "inspiration": "This project was inspired by my desire to enter the SaaS world and understand how to create, develop, publish and manage a SaaS product from end to end."
+  },
+  {
+    "id": "ToDoReact",
+    "name": "ToDo React",
+    "image": "/Img-projetos/ToDoReact.png",
+    "imageAlt": "ToDo React screenshot",
+    "github": "https://github.com/OtavioAntocevicz/ToDo_react",
+    "site": "https://to-do-react-mauve-ten.vercel.app",
+    "desc": "Task list app — my very first React project",
+    "languages": ["React", "JavaScript", "CSS"],
+    "inspiration": "This was my first project built with React. Through it I took my first steps with the library, learning about componentization, state management and the logic behind creating and removing tasks."
+  },
+  {
+    "id": "PortfolioOtavio",
+    "name": "Portfolio",
+    "image": "/Img-projetos/Portfolio.png",
+    "imageAlt": "Portfolio screenshot",
+    "github": "https://github.com/OtavioAntocevicz/portfolio-otavio",
+    "site": "https://portifolio-otaviodev.vercel.app/",
+    "desc": "My personal portfolio built from scratch",
+    "languages": ["React", "TypeScript", "Vite"],
+    "inspiration": "I wanted to create my own portfolio to present my projects and skills in a professional way, while practicing componentization and responsive design."
   }
 ]
