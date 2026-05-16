@@ -13,6 +13,7 @@ import {
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type RefObject,
@@ -24,7 +25,7 @@ import { useTheme } from './contexts/ThemeContext.tsx'
 import { profileLinks } from './data/links.ts'
 import projectsEn from './data/projects.en.json'
 import projectsPtBr from './data/projects.pt-br.json'
-import i18n, { setStoredLanguage } from './i18n.ts'
+import { setStoredLanguage } from './i18n.ts'
 import { setPageMeta } from './setPageMeta.ts'
 
 const PROJECT_FALLBACK_IMAGE = '/Img-projetos/placeholder.svg'
@@ -48,7 +49,11 @@ type ProjectEntry = {
 }
 
 function App() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const resolved =
+    (i18n.resolvedLanguage ?? i18n.language ?? 'pt').toLowerCase()
+  const lng = resolved.startsWith('en') ? 'en' : 'pt'
+
   const { theme, toggleTheme } = useTheme()
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null)
@@ -56,7 +61,6 @@ function App() {
   const projectModalCloseRef = useRef<HTMLButtonElement>(null)
   const firstMobileNavRef = useRef<HTMLAnchorElement>(null)
   const prevMenuOpen = useRef(menuOpen)
-  const lng = i18n.language.startsWith('en') ? 'en' : 'pt'
 
   const closeProjectModal = useCallback(() => {
     setActiveProjectId((current) => {
@@ -177,9 +181,10 @@ function App() {
   const polinovaItems = t('experience.polinova.items', {
     returnObjects: true,
   }) as string[]
-  const projectItems = (
-    lng === 'en' ? projectsEn : projectsPtBr
-  ) as ProjectEntry[]
+  const projectItems = useMemo(
+    () => (lng === 'en' ? projectsEn : projectsPtBr) as ProjectEntry[],
+    [lng],
+  )
   const activeProject = activeProjectId
     ? projectItems.find((p) => p.id === activeProjectId)
     : undefined
