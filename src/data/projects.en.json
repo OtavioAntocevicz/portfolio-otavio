@@ -7,12 +7,16 @@
     "github": "https://github.com/OtavioAntocevicz/CopySell-AI",
     "site": "https://copy-sell-ai.vercel.app/",
     "desc": "SaaS for generating marketplace listings with AI",
+<<<<<<< HEAD
     "languages": [
       "Next.js",
       "TypeScript",
       "Supabase",
       "Gemini AI"
     ],
+=======
+    "languages": ["Next.js", "TypeScript", "Supabase", "Gemini AI"],
+>>>>>>> fdd964c8ff65454f894f33aab17d778bc5ddd76d
     "inspiration": "I wanted to explore building a full SaaS with artificial intelligence, combining AI-powered content generation with a plans system, credits, and an admin dashboard."
   },
   {
@@ -23,12 +27,16 @@
     "github": "https://github.com/OtavioAntocevicz/SprintPro",
     "site": "",
     "desc": "SaaS task management platform with Kanban, organization permissions and reports",
+<<<<<<< HEAD
     "languages": [
       "React",
       "TypeScript",
       "Node.js",
       "PostgreSQL"
     ],
+=======
+    "languages": ["React", "TypeScript", "Node.js", "PostgreSQL"],
+>>>>>>> fdd964c8ff65454f894f33aab17d778bc5ddd76d
     "inspiration": "I wanted to build a team management platform from scratch, with a decoupled frontend and backend architecture, JWT authentication, multi-tenant control and real features like invites, Kanban drag and drop and an online presence system."
   },
   {
@@ -39,12 +47,16 @@
     "github": "https://github.com/OtavioAntocevicz/Catalogo-Inteligente-master",
     "site": "https://catalogo-inteligente-master.vercel.app",
     "desc": "Product catalog management and analysis with AI-powered insights",
+<<<<<<< HEAD
     "languages": [
       "React",
       "Firebase",
       "JavaScript",
       "Gemini AI"
     ],
+=======
+    "languages": ["React", "Firebase", "JavaScript", "Gemini AI"],
+>>>>>>> fdd964c8ff65454f894f33aab17d778bc5ddd76d
     "inspiration": "I built this to understand how to create a complete B2B application, with company-based authentication, an analytics dashboard and AI to generate insights about a product portfolio."
   },
   {
@@ -55,11 +67,15 @@
     "github": "https://github.com/OtavioAntocevicz/CardapioPro",
     "site": "https://cardapio-pro.vercel.app/",
     "desc": "Digital menu for food and retail businesses",
+<<<<<<< HEAD
     "languages": [
       "React",
       "Firebase",
       "JavaScript"
     ],
+=======
+    "languages": ["React", "Firebase", "JavaScript"],
+>>>>>>> fdd964c8ff65454f894f33aab17d778bc5ddd76d
     "inspiration": "This project was inspired by my desire to enter the SaaS world and understand how to create, develop, publish and manage a SaaS product from end to end."
   },
   {
@@ -70,11 +86,15 @@
     "github": "https://github.com/OtavioAntocevicz/ToDo_react",
     "site": "https://to-do-react-mauve-ten.vercel.app",
     "desc": "Task list app — my very first React project",
+<<<<<<< HEAD
     "languages": [
       "React",
       "JavaScript",
       "CSS"
     ],
+=======
+    "languages": ["React", "JavaScript", "CSS"],
+>>>>>>> fdd964c8ff65454f894f33aab17d778bc5ddd76d
     "inspiration": "This was my first project built with React. Through it I took my first steps with the library, learning about componentization, state management and the logic behind creating and removing tasks."
   },
   {
@@ -85,11 +105,15 @@
     "github": "https://github.com/OtavioAntocevicz/portfolio-otavio",
     "site": "https://portifolio-otaviodev.vercel.app/",
     "desc": "My personal portfolio built from scratch",
+<<<<<<< HEAD
     "languages": [
       "React",
       "TypeScript",
       "Vite"
     ],
+=======
+    "languages": ["React", "TypeScript", "Vite"],
+>>>>>>> fdd964c8ff65454f894f33aab17d778bc5ddd76d
     "inspiration": "I wanted to create my own portfolio to present my projects and skills in a professional way, while practicing componentization and responsive design."
   }
 ]
