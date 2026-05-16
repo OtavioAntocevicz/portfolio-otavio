@@ -5,6 +5,7 @@ export const profileLinks = {
   phoneTel: '+5541991832326',
   whatsapp: 'https://wa.me/5541991832326',
   github: 'https://github.com/otavioantocevicz',
-  /** Substitua pelo seu perfil público do LinkedIn */
-  linkedin: 'https://www.linkedin.com/in/otavioantocevicz',
+  linkedin: 'https://www.linkedin.com/in/otavio-antocevicz',
+  /** PDF estático em `public/` (ex.: public/Otávio_Currículo.pdf) */
+  cvPdf: '/Otávio_Currículo.pdf',
 } as const

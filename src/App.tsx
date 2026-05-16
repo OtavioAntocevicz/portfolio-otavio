@@ -4,9 +4,7 @@ import {
   Linkedin,
   Mail,
   Menu,
-  MessageCircle,
   Moon,
-  Phone,
   Sun,
   X,
 } from 'lucide-react'
@@ -325,6 +323,13 @@ function App() {
             <a className="btn btn--ghost" href="#contato">
               {t('hero.ctaContact')}
             </a>
+            <a
+              className="btn btn--ghost"
+              href={profileLinks.cvPdf}
+              download="Otávio_Currículo.pdf"
+            >
+              {t('hero.ctaCv')}
+            </a>
           </div>
         </section>
 
@@ -491,28 +496,6 @@ function App() {
                 <Mail size={22} aria-hidden />
                 <span className="contact-card__label">{t('contact.email')}</span>
                 <span className="contact-card__value">{profileLinks.email}</span>
-              </a>
-              <a
-                className="card contact-card"
-                href={`tel:${profileLinks.phoneTel}`}
-              >
-                <Phone size={22} aria-hidden />
-                <span className="contact-card__label">{t('contact.phone')}</span>
-                <span className="contact-card__value">
-                  {profileLinks.phoneDisplay}
-                </span>
-              </a>
-              <a
-                className="card contact-card"
-                href={profileLinks.whatsapp}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <MessageCircle size={22} aria-hidden />
-                <span className="contact-card__label">{t('contact.whatsapp')}</span>
-                <span className="contact-card__value">
-                  {profileLinks.phoneDisplay}
-                </span>
               </a>
               <a
                 className="card contact-card"

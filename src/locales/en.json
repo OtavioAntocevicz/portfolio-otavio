@@ -29,7 +29,8 @@
     "badge": "Open to opportunities",
     "role": "Front-end Developer",
     "ctaProjects": "View projects",
-    "ctaContact": "Get in touch"
+    "ctaContact": "Get in touch",
+    "ctaCv": "Download résumé"
   },
   "about": {
     "title": "About",
