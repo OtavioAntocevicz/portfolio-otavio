@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Otávio Morais Antocevicz — Portfólio",
-    "description": "Otávio Morais Antocevicz — Desenvolvedor Front-end. React, Vue, Node e mais."
+    "title": "Otávio Morais Antocevicz - Portfólio",
+    "description": "Otávio Morais Antocevicz - Desenvolvedor Front-end. React, Vue, Node e mais."
   },
   "a11y": {
     "skipToContent": "Pular para o conteúdo"
@@ -72,18 +72,22 @@
     "jce": {
       "role": "Assistente de E-commerce",
       "company": "JCE",
-      "period": "07/2024 — Atualmente",
+      "period": "07/2024 - Atualmente",
       "items": [
-        "Desenvolvimento de e-commerces (HOUP e Toyama)",
-        "Atualização, gerenciamento de dados e correção de integrações (clientes, produtos, pedidos) nos sistemas Linx, Plugg.to e Pagar.me",
-        "Automação de monitoramento de vendas e preços com Power BI e Python",
-        "Correção de integração de pedidos no sistema Protheus (TOTVS)"
+        "Desenvolvimento de e-commerces (HOUP, Toyama, GreenWorks, Rhinomec, Aquabrazil).",
+        "Criação de sistema de cálculo para geradores.",
+        "Desenvolvimento de sistema de recomendação de troca de produtos com IA.",
+        "Atualização, gerenciamento de dados e correção de integrações (clientes, produtos, pedidos, fotos, preço, descrição) em sistemas como Linx, Plugg.to, Pagar.me, Protheus e VTEX.",
+        "Automação de monitoramento de vendas e preços da concorrência utilizando Power BI e Python.",
+        "Criação de uma loja com VTEX.",
+        "Correção de integração de pedidos no sistema Protheus (TOTVS).",
+        "Painel de análise de integração de pedidos de marketplace para o ERP."
       ]
     },
     "polinova": {
       "role": "Estoquista",
       "company": "Polinova",
-      "period": "04/2024 — 06/2024",
+      "period": "04/2024 - 06/2024",
       "items": [
         "Controle de estoque, armazenamento e organização logística",
         "Redução de custos e otimização de espaços"

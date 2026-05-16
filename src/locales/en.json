@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Otávio Morais Antocevicz — Portfolio",
-    "description": "Otávio Morais Antocevicz — Front-end developer. React, Vue, Node, and more."
+    "title": "Otávio Morais Antocevicz - Portfolio",
+    "description": "Otávio Morais Antocevicz - Front-end developer. React, Vue, Node, and more."
   },
   "a11y": {
     "skipToContent": "Skip to main content"
@@ -72,18 +72,22 @@
     "jce": {
       "role": "E-commerce Assistant",
       "company": "JCE",
-      "period": "Jul 2024 — Present",
+      "period": "Jul 2024 - Present",
       "items": [
-        "E-commerce development (HOUP and Toyama)",
-        "Data updates, management, and integration fixes (customers, products, orders) across Linx, Plugg.to, and Pagar.me",
-        "Sales and pricing monitoring automation with Power BI and Python",
-        "Order integration fixes in Protheus (TOTVS)"
+        "E-commerce development (HOUP, Toyama, GreenWorks, Rhinomec, Aquabrazil).",
+        "Built a calculation system for generators.",
+        "Developed an AI-powered product swap recommendation system.",
+        "Data updates, management, and integration fixes (customers, products, orders, photos, pricing, descriptions) across Linx, Plugg.to, Pagar.me, Protheus, and VTEX.",
+        "Automation for monitoring competitor sales and pricing using Power BI and Python.",
+        "Built a storefront on VTEX.",
+        "Order integration fixes in Protheus (TOTVS).",
+        "Dashboard for analyzing marketplace order integration into the ERP."
       ]
     },
     "polinova": {
       "role": "Warehouse Associate",
       "company": "Polinova",
-      "period": "Apr 2024 — Jun 2024",
+      "period": "Apr 2024 - Jun 2024",
       "items": [
         "Stock control, storage, and logistics organization",
         "Cost reduction and space optimization"
