@@ -21,7 +21,7 @@
     "image": "/Img-projetos/SprintPro.png",
     "imageAlt": "Sprint Pro screenshot",
     "github": "https://github.com/OtavioAntocevicz/SprintPro",
-    "site": "",
+    "site": "https://sprintpro.vercel.app/",
     "desc": "SaaS task management platform with Kanban, organization permissions and reports",
     "languages": [
       "React",
