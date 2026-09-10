@@ -15,7 +15,9 @@ npm run dev
 
 ## CMS / Supabase
 
-O ambiente de **desenvolvimento** já está configurado no `.env.example` (projeto `portfolio-otavio-dev`).
+O ambiente de **desenvolvimento** (`portfolio-otavio-dev`) já vem embutido no código para preview funcionar sem config extra.
+
+**Importante:** variáveis `VITE_*` vão na **Vercel** (Settings → Environment Variables), não no painel do Supabase. No Supabase você só configura secrets de Edge Functions (ex.: `DEEPL_API_KEY`).
 
 ### Primeiro acesso ao editor
 
