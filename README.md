@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# Portfólio Otávio — com CMS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Site de portfólio em React + Vite, com painel em `/editor` para editar currículo e projetos via Supabase.
 
-Currently, two official plugins are available:
+## Desenvolvimento
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cp .env.example .env
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Site público: `http://localhost:5173/`
+- Editor (sem link no site): `http://localhost:5173/editor`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## CMS / Supabase
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+O ambiente de **desenvolvimento** já está configurado no `.env.example` (projeto `portfolio-otavio-dev`).
+
+### Primeiro acesso ao editor
+
+1. Abra `/editor/login`
+2. Clique em **Criar conta** e registre seu e-mail e senha
+3. Se o Supabase exigir confirmação de e-mail, confirme e faça login
+4. Edite o conteúdo e salve — o site público lê do mesmo banco
+
+### Tradução PT → EN
+
+Nos campos com botão **Traduzir para EN**, a tradução usa a Edge Function `translate` (MyMemory gratuito). Para melhor qualidade, adicione `DEEPL_API_KEY` nos [Secrets do Supabase](https://supabase.com/dashboard/project/ubcebtzlsbobmxjjsoqy/settings/functions).
+
+## Deploy (Vercel)
+
+Na branch de preview / produção, configure as variáveis:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+Valores em `.env.example`. O `vercel.json` já faz rewrite SPA para `/editor`.
+
+**Produção (`main`)**: use um projeto Supabase separado (prod) quando for fazer merge. Enquanto valida, use apenas a preview desta branch.
+
+## Scripts
+
+| Comando        | Descrição        |
+|----------------|------------------|
+| `npm run dev`  | Servidor local   |
+| `npm run build`| Build produção   |
+| `npm run lint` | ESLint           |
