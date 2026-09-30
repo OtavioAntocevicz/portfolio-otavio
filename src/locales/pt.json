@@ -30,11 +30,18 @@
     "role": "Desenvolvedor Front-end",
     "ctaProjects": "Ver projetos",
     "ctaContact": "Fale comigo",
-    "ctaCv": "Baixar currículo"
+    "ctaCv": "Baixar currículo",
+    "localTime": "Horário local",
+    "scroll": "Ir para Sobre"
   },
   "about": {
     "title": "Sobre",
-    "text": "Desenvolvedor front-end com 5 anos de experiência em tecnologias modernas como React.js, Vue.js, Node.js, entre outras. Apaixonado por aprender e criar soluções inovadoras, tenho experiência em projetos pessoais e profissionais que demonstram minhas habilidades em desenvolvimento web e automação de processos."
+    "text": "Desenvolvedor front-end com 5 anos de experiência em tecnologias modernas como React.js, Vue.js, Node.js, entre outras. Apaixonado por aprender e criar soluções inovadoras, tenho experiência em projetos pessoais e profissionais que demonstram minhas habilidades em desenvolvimento web e automação de processos.",
+    "stats": {
+      "experiences": "Experiências profissionais",
+      "projects": "Projetos em destaque",
+      "tech": "Tecnologias na stack"
+    }
   },
   "skills": {
     "title": "Tecnologias e ferramentas",
@@ -120,9 +127,14 @@
     "phone": "Telefone / WhatsApp",
     "whatsapp": "WhatsApp",
     "github": "GitHub",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "headlineA": "Vamos construir",
+    "headlineB": "algo juntos?",
+    "copy": "Copiar e-mail",
+    "copied": "Copiado!"
   },
   "footer": {
-    "built": "Feito com React e Vite"
+    "built": "Feito com React e Vite",
+    "backToTop": "Voltar ao topo"
   }
 }

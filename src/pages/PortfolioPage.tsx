@@ -1,50 +1,151 @@
 import {
-  ExternalLink,
+  ArrowUp,
+  ArrowUpRight,
+  Asterisk,
+  Braces,
+  Check,
+  Copy,
+  Download,
   Github,
+  GraduationCap,
   Linkedin,
   Mail,
   Menu,
   Moon,
+  Server,
+  Sparkles,
   Sun,
+  Workflow,
   X,
+  type LucideIcon,
 } from 'lucide-react'
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
-  type RefObject,
-  type SyntheticEvent,
+  type CSSProperties,
+  type MouseEvent,
 } from 'react'
+import { flushSync } from 'react-dom'
 import { useTranslation } from 'react-i18next'
-import '../App.css'
+import { CountUp } from '../components/portfolio/CountUp.tsx'
+import { LocalClock } from '../components/portfolio/LocalClock.tsx'
+import { ProjectModal } from '../components/portfolio/ProjectModal.tsx'
+import { RotatingBadge } from '../components/portfolio/RotatingBadge.tsx'
+import { onProjectImageError } from '../components/portfolio/projectImage.ts'
 import { useTheme } from '../contexts/ThemeContext.tsx'
 import { usePortfolioContent } from '../hooks/usePortfolioContent.ts'
+import { useReveal } from '../hooks/useReveal.ts'
+import { useScrollLock } from '../hooks/useScrollLock.ts'
+import { useScrollSpy } from '../hooks/useScrollSpy.ts'
 import { setStoredLanguage } from '../i18n.ts'
 import { setPageMeta } from '../setPageMeta.ts'
+import '../styles/portfolio.css'
 
-const PROJECT_FALLBACK_IMAGE = '/Img-projetos/placeholder.svg'
+const FULL_NAME = 'Otávio Morais Antocevicz'
 
-function onProjectCardImageError(e: SyntheticEvent<HTMLImageElement>) {
-  const el = e.currentTarget
-  if (el.src.includes('placeholder.svg')) return
-  el.src = PROJECT_FALLBACK_IMAGE
+const NAV_ITEMS = [
+  { id: 'sobre', key: 'nav.about' },
+  { id: 'skills', key: 'nav.skills' },
+  { id: 'experiencia', key: 'nav.experience' },
+  { id: 'formacao', key: 'nav.education' },
+  { id: 'projetos', key: 'nav.projects' },
+  { id: 'contato', key: 'nav.contact' },
+] as const
+
+const SECTION_IDS = NAV_ITEMS.map((item) => item.id)
+
+function splitList(list: string) {
+  return list
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+}
+
+function pad(n: number) {
+  return String(n).padStart(2, '0')
+}
+
+/** Separa a primeira frase para destacá-la no parágrafo "Sobre". */
+function splitStatement(text: string) {
+  const match = text.match(/^(.+?[.!?])\s+([\s\S]+)$/)
+  if (!match) return { lead: text, rest: '' }
+  return { lead: match[1], rest: match[2] }
+}
+
+type ViewTransitionDocument = Document & {
+  startViewTransition?: (cb: () => void) => unknown
 }
 
 export function PortfolioPage() {
   const { t, i18n } = useTranslation()
-  const resolved =
-    (i18n.resolvedLanguage ?? i18n.language ?? 'pt').toLowerCase()
+  const resolved = (i18n.resolvedLanguage ?? i18n.language ?? 'pt').toLowerCase()
   const lng = resolved.startsWith('en') ? 'en' : 'pt'
+  const locale = lng === 'en' ? 'en-US' : 'pt-BR'
 
   const { theme, toggleTheme } = useTheme()
   const { content } = usePortfolioContent(lng)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null)
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 24)
+  const [copied, setCopied] = useState(false)
   const menuBtnRef = useRef<HTMLButtonElement>(null)
-  const projectModalCloseRef = useRef<HTMLButtonElement>(null)
   const firstMobileNavRef = useRef<HTMLAnchorElement>(null)
   const prevMenuOpen = useRef(menuOpen)
+
+  const activeSection = useScrollSpy(SECTION_IDS, 'inicio')
+  useScrollLock(menuOpen || activeProjectId !== null)
+  useReveal(`${lng}-${content.source}-${content.projects.length}`)
+
+  useEffect(() => {
+    document.documentElement.lang = lng === 'en' ? 'en' : 'pt-BR'
+    setPageMeta(content.metaTitle, content.metaDescription)
+  }, [lng, content.metaTitle, content.metaDescription])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    if (menuOpen) {
+      const id = requestAnimationFrame(() => firstMobileNavRef.current?.focus())
+      return () => cancelAnimationFrame(id)
+    }
+  }, [menuOpen])
+
+  useEffect(() => {
+    if (prevMenuOpen.current && !menuOpen) menuBtnRef.current?.focus()
+    prevMenuOpen.current = menuOpen
+  }, [menuOpen])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [menuOpen])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1000px)')
+    const onChange = () => {
+      if (mq.matches) setMenuOpen(false)
+    }
+    mq.addEventListener('change', onChange)
+    onChange()
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    if (!copied) return
+    const id = window.setTimeout(() => setCopied(false), 2000)
+    return () => window.clearTimeout(id)
+  }, [copied])
 
   const closeProjectModal = useCallback(() => {
     setActiveProjectId((current) => {
@@ -59,166 +160,97 @@ export function PortfolioPage() {
     })
   }, [])
 
-  useEffect(() => {
-    document.documentElement.lang = lng === 'en' ? 'en' : 'pt-BR'
-    setPageMeta(content.metaTitle, content.metaDescription)
-  }, [lng, content.metaTitle, content.metaDescription])
-
-  useEffect(() => {
-    if (menuOpen) {
-      const id = requestAnimationFrame(() => firstMobileNavRef.current?.focus())
-      return () => cancelAnimationFrame(id)
+  const onToggleTheme = (e: MouseEvent<HTMLButtonElement>) => {
+    const doc = document as ViewTransitionDocument
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!doc.startViewTransition || reduce) {
+      toggleTheme()
+      return
     }
-  }, [menuOpen])
-
-  useEffect(() => {
-    if (prevMenuOpen.current && !menuOpen) {
-      menuBtnRef.current?.focus()
-    }
-    prevMenuOpen.current = menuOpen
-  }, [menuOpen])
-
-  useEffect(() => {
-    if (!menuOpen) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMenuOpen(false)
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [menuOpen])
-
-  useEffect(() => {
-    const lock = menuOpen || activeProjectId !== null
-    if (!lock) return
-
-    const scrollY = window.scrollY
-    const scrollbarGap = window.innerWidth - document.documentElement.clientWidth
-    const prevBody = {
-      position: document.body.style.position,
-      top: document.body.style.top,
-      left: document.body.style.left,
-      right: document.body.style.right,
-      width: document.body.style.width,
-      paddingRight: document.body.style.paddingRight,
-    }
-    const prevHtmlOverflow = document.documentElement.style.overflow
-
-    document.body.style.position = 'fixed'
-    document.body.style.top = `-${scrollY}px`
-    document.body.style.left = '0'
-    document.body.style.right = '0'
-    document.body.style.width = '100%'
-    if (scrollbarGap > 0) {
-      document.body.style.paddingRight = `${scrollbarGap}px`
-    }
-    document.documentElement.style.overflow = 'hidden'
-
-    return () => {
-      const html = document.documentElement
-      const prevScrollBehavior = html.style.scrollBehavior
-      html.style.scrollBehavior = 'auto'
-
-      document.body.style.position = prevBody.position
-      document.body.style.top = prevBody.top
-      document.body.style.left = prevBody.left
-      document.body.style.right = prevBody.right
-      document.body.style.width = prevBody.width
-      document.body.style.paddingRight = prevBody.paddingRight
-      document.documentElement.style.overflow = prevHtmlOverflow
-      window.scrollTo(0, scrollY)
-
-      html.style.scrollBehavior = prevScrollBehavior
-    }
-  }, [menuOpen, activeProjectId])
-
-  useEffect(() => {
-    if (!activeProjectId) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeProjectModal()
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [activeProjectId, closeProjectModal])
-
-  useEffect(() => {
-    if (!activeProjectId) return
-    projectModalCloseRef.current?.focus()
-  }, [activeProjectId])
-
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 960px)')
-    const onChange = () => {
-      if (mq.matches) setMenuOpen(false)
-    }
-    mq.addEventListener('change', onChange)
-    onChange()
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
-
-  const projectItems = content.projects
-  const activeProject = activeProjectId
-    ? projectItems.find((p) => p.id === activeProjectId)
-    : undefined
+    const x = e.clientX || window.innerWidth - 40
+    const y = e.clientY || 40
+    const r = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    )
+    const root = document.documentElement.style
+    root.setProperty('--vt-x', `${x}px`)
+    root.setProperty('--vt-y', `${y}px`)
+    root.setProperty('--vt-r', `${r}px`)
+    doc.startViewTransition(() => flushSync(toggleTheme))
+  }
 
   const switchLang = (next: 'pt' | 'en') => {
     setStoredLanguage(next)
     setMenuOpen(false)
   }
 
-  const closeMenu = () => setMenuOpen(false)
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(content.links.email)
+      setCopied(true)
+    } catch {
+      window.location.href = `mailto:${content.links.email}`
+    }
+  }
 
-  const navLinks = (firstRef?: RefObject<HTMLAnchorElement | null>) => (
-    <>
-      <a ref={firstRef} href="#sobre" onClick={closeMenu}>
-        {t('nav.about')}
-      </a>
-      <a href="#skills" onClick={closeMenu}>
-        {t('nav.skills')}
-      </a>
-      <a href="#experiencia" onClick={closeMenu}>
-        {t('nav.experience')}
-      </a>
-      <a href="#formacao" onClick={closeMenu}>
-        {t('nav.education')}
-      </a>
-      <a href="#projetos" onClick={closeMenu}>
-        {t('nav.projects')}
-      </a>
-      <a href="#contato" onClick={closeMenu}>
-        {t('nav.contact')}
-      </a>
-    </>
+  const skillGroups = useMemo(
+    () =>
+      [
+        { key: 'frontend', icon: Braces, list: content.skills.frontendList },
+        { key: 'backend', icon: Server, list: content.skills.backendList },
+        { key: 'automation', icon: Workflow, list: content.skills.automationList },
+        { key: 'other', icon: Sparkles, list: content.skills.otherList },
+      ].map((g) => ({ ...g, items: splitList(g.list) })) as {
+        key: string
+        icon: LucideIcon
+        items: string[]
+      }[],
+    [content.skills],
   )
 
+  const allSkills = useMemo(
+    () => Array.from(new Set(skillGroups.flatMap((g) => g.items))),
+    [skillGroups],
+  )
+
+  const statement = splitStatement(content.aboutText)
+  const projects = content.projects
+  const activeIndex = projects.findIndex((p) => p.id === activeProjectId)
+  const activeProject = activeIndex >= 0 ? projects[activeIndex] : undefined
+  const year = new Date().getFullYear()
+
   return (
-    <div className="app">
-      {menuOpen ? (
-        <div
-          className="nav-backdrop"
-          aria-hidden
-          onClick={() => setMenuOpen(false)}
-        />
-      ) : null}
-      <a className="skip-link" href="#top">
+    <div className="site">
+      <a className="skip-link" href="#conteudo">
         {t('a11y.skipToContent')}
       </a>
-      <header className="header">
-        <div className="header__inner">
-          <a className="header__brand" href="#top">
-            Otávio
-            <span className="header__brand-dot">.</span>
-            dev
+
+      <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
+        <div className="site-header__bar">
+          <a className="brand" href="#inicio" aria-label={FULL_NAME}>
+            <span className="brand__mark" aria-hidden>
+              O
+            </span>
+            <span className="brand__text" aria-hidden>
+              otávio<span>.</span>dev
+            </span>
           </a>
 
-          <nav
-            className="header__nav header__nav--desktop"
-            aria-label={t('nav.ariaMain')}
-          >
-            {navLinks()}
+          <nav className="nav-desktop" aria-label={t('nav.ariaMain')}>
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                aria-current={activeSection === item.id ? 'true' : undefined}
+              >
+                {t(item.key)}
+              </a>
+            ))}
           </nav>
 
-          <div className="header__actions">
-            <div className="lang-toggle" role="group" aria-label={t('header.langGroup')}>
+          <div className="header-actions">
+            <div className="seg" role="group" aria-label={t('header.langGroup')}>
               <button
                 type="button"
                 className={lng === 'pt' ? 'is-active' : ''}
@@ -241,328 +273,452 @@ export function PortfolioPage() {
 
             <button
               type="button"
-              className="icon-btn"
-              onClick={toggleTheme}
-              aria-label={
-                theme === 'dark' ? t('header.themeLight') : t('header.themeDark')
-              }
+              className="icon-btn theme-toggle"
+              onClick={onToggleTheme}
+              aria-label={theme === 'dark' ? t('header.themeLight') : t('header.themeDark')}
             >
-              {theme === 'dark' ? (
-                <Sun size={20} strokeWidth={2} />
-              ) : (
-                <Moon size={20} strokeWidth={2} />
-              )}
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
 
             <button
               ref={menuBtnRef}
               type="button"
-              className="icon-btn header__menu-btn"
+              className="icon-btn menu-btn"
               aria-expanded={menuOpen}
-              aria-controls="mobile-nav"
+              aria-controls="mobile-menu"
               onClick={() => setMenuOpen((o) => !o)}
               aria-label={menuOpen ? t('header.menuClose') : t('header.menuOpen')}
             >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
-
-        <div
-          id="mobile-nav"
-          className={`header__drawer ${menuOpen ? 'is-open' : ''}`}
-          aria-hidden={!menuOpen}
-          inert={!menuOpen ? true : undefined}
-        >
-          <nav
-            className="header__nav header__nav--mobile"
-            aria-label={t('nav.ariaMobile')}
-          >
-            {navLinks(firstMobileNavRef)}
-          </nav>
-        </div>
       </header>
 
-      <main id="top">
-        <section className="hero">
-          <div className="hero__glow" aria-hidden />
-          <p className="hero__badge">{content.heroBadge}</p>
-          <h1 className="hero__title">Otávio Morais Antocevicz</h1>
-          <p className="hero__role">{content.heroRole}</p>
-          <div className="hero__cta">
-            <a className="btn btn--primary" href="#projetos">
-              {t('hero.ctaProjects')}
-            </a>
-            <a className="btn btn--ghost" href="#contato">
-              {t('hero.ctaContact')}
-            </a>
+      <div
+        id="mobile-menu"
+        className={`mobile-menu${menuOpen ? ' is-open' : ''}`}
+        aria-hidden={!menuOpen}
+        inert={!menuOpen ? true : undefined}
+      >
+        <nav aria-label={t('nav.ariaMobile')}>
+          {NAV_ITEMS.map((item, i) => (
             <a
-              className="btn btn--ghost"
-              href={content.links.cvPdf}
-              download="Otávio_Currículo.pdf"
+              key={item.id}
+              ref={i === 0 ? firstMobileNavRef : undefined}
+              href={`#${item.id}`}
+              onClick={() => setMenuOpen(false)}
             >
-              {t('hero.ctaCv')}
+              <span aria-hidden>{pad(i + 1)}</span>
+              {t(item.key)}
             </a>
-          </div>
-        </section>
+          ))}
+        </nav>
+        <div className="mobile-menu__foot">
+          <a href={`mailto:${content.links.email}`}>{content.links.email}</a>
+          <LocalClock locale={locale} />
+        </div>
+      </div>
 
-        <section id="sobre" className="section">
-          <div className="section__inner">
-            <h2 className="section__title">{t('about.title')}</h2>
-            <p className="about__text">{content.aboutText}</p>
-          </div>
-        </section>
+      <main id="conteudo" tabIndex={-1}>
+        <section id="inicio" className="hero" aria-label={FULL_NAME}>
+          <div className="hero__grid-bg" aria-hidden />
+          <div className="hero__orb" aria-hidden />
 
-        <section id="skills" className="section section--alt">
-          <div className="section__inner">
-            <h2 className="section__title">{t('skills.title')}</h2>
-            <p className="section__subtitle">{t('skills.subtitle')}</p>
-            <div className="skill-grid">
-              <article className="card skill-card">
-                <h3>{t('skills.frontend')}</h3>
-                <p>{content.skills.frontendList}</p>
-              </article>
-              <article className="card skill-card">
-                <h3>{t('skills.backend')}</h3>
-                <p>{content.skills.backendList}</p>
-              </article>
-              <article className="card skill-card">
-                <h3>{t('skills.automation')}</h3>
-                <p>{content.skills.automationList}</p>
-              </article>
-              <article className="card skill-card">
-                <h3>{t('skills.other')}</h3>
-                <p>{content.skills.otherList}</p>
-              </article>
+          <div className="hero__inner">
+            <div className="hero__meta">
+              <span className="status">
+                <span className="status__dot" aria-hidden />
+                {content.heroBadge}
+              </span>
+              <span>
+                {t('hero.localTime')} — <LocalClock locale={locale} />
+              </span>
             </div>
 
-            <h2 className="section__title section__title--spaced">
-              {t('competencies.title')}
-            </h2>
-            <ul className="list-check">
-              {content.competencies.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+            <h1 className="hero__title">
+              <span className="hero__word">
+                <span style={{ '--d': '0ms' } as CSSProperties}>Otávio</span>
+              </span>
+              <span className="hero__word">
+                <span style={{ '--d': '110ms' } as CSSProperties}>Morais</span>
+              </span>
+              <span className="hero__word">
+                <em style={{ '--d': '220ms' } as CSSProperties}>Antocevicz</em>
+              </span>
+            </h1>
 
-            <h2 className="section__title section__title--spaced">
-              {t('highlights.title')}
+            <div className="hero__bottom">
+              <div>
+                <p className="hero__role">{content.heroRole}</p>
+                <div className="hero__cta">
+                  <a className="btn btn--primary" href="#projetos">
+                    {t('hero.ctaProjects')}
+                    <ArrowUpRight size={18} aria-hidden />
+                  </a>
+                  <a className="btn btn--ghost" href="#contato">
+                    {t('hero.ctaContact')}
+                  </a>
+                  <a
+                    className="hero__cv"
+                    href={content.links.cvPdf}
+                    download="Otávio_Currículo.pdf"
+                  >
+                    <Download size={16} aria-hidden />
+                    {t('hero.ctaCv')}
+                  </a>
+                </div>
+              </div>
+              <RotatingBadge
+                text={content.heroRole}
+                href="#sobre"
+                label={t('hero.scroll')}
+              />
+            </div>
+          </div>
+
+          {allSkills.length > 0 ? (
+            <div className="marquee">
+              <div className="marquee__track">
+                {[0, 1].map((copy) => (
+                  <ul
+                    key={copy}
+                    className="marquee__group"
+                    aria-hidden={copy === 1 ? true : undefined}
+                  >
+                    {allSkills.map((skill) => (
+                      <li key={skill} className="marquee__item">
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </section>
+
+        <section id="sobre" className="section" aria-labelledby="sobre-title">
+          <div className="section__inner">
+            <p className="eyebrow" data-reveal>
+              01 / {t('nav.about')}
+            </p>
+            <h2 id="sobre-title" className="sr-only">
+              {t('about.title')}
             </h2>
-            <ul className="list-dots">
-              {content.highlights.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+            <p className="about__statement" data-reveal>
+              <strong>{statement.lead}</strong> {statement.rest}
+            </p>
+            <dl className="stats" data-reveal>
+              <div className="stat">
+                <dt>{t('about.stats.experiences')}</dt>
+                <dd>
+                  <CountUp value={content.experiences.length} />
+                </dd>
+              </div>
+              <div className="stat">
+                <dt>{t('about.stats.projects')}</dt>
+                <dd>
+                  <CountUp value={projects.length} />
+                </dd>
+              </div>
+              <div className="stat">
+                <dt>{t('about.stats.tech')}</dt>
+                <dd>
+                  <CountUp value={allSkills.length} />
+                  <em>+</em>
+                </dd>
+              </div>
+            </dl>
           </div>
         </section>
 
-        <section id="experiencia" className="section">
+        <section id="skills" className="section section--muted" aria-labelledby="skills-title">
           <div className="section__inner">
-            <h2 className="section__title">{t('experience.title')}</h2>
-            <ol className="timeline">
-              {content.experiences.map((exp) => (
-                <li key={exp.id} className="timeline__item">
-                  <div className="timeline__marker" aria-hidden />
-                  <article className="card timeline__card">
-                    <header className="timeline__head">
-                      <h3>{exp.role}</h3>
-                      <span className="timeline__company">{exp.company}</span>
-                      <time className="timeline__period">{exp.period}</time>
-                    </header>
-                    <ul className="timeline__list">
+            <div className="section-head" data-reveal>
+              <div>
+                <p className="eyebrow">02 / {t('nav.skills')}</p>
+                <h2 id="skills-title" className="section-title">
+                  {t('skills.title')}
+                </h2>
+              </div>
+              <p className="section-lede">{t('skills.subtitle')}</p>
+            </div>
+
+            <div className="bento">
+              {skillGroups.map((group, i) => {
+                const Icon = group.icon
+                return (
+                  <article
+                    key={group.key}
+                    className={`skill-tile${i === 0 ? ' skill-tile--inverse' : ''}`}
+                    data-reveal
+                    style={{ '--reveal-delay': `${i * 80}ms` } as CSSProperties}
+                  >
+                    <div className="skill-tile__head">
+                      <span className="skill-tile__icon" aria-hidden>
+                        <Icon size={20} />
+                      </span>
+                      <span>
+                        {pad(i + 1)} · {pad(group.items.length)}
+                      </span>
+                    </div>
+                    <h3>{t(`skills.${group.key}`)}</h3>
+                    <ul className="chips">
+                      {group.items.map((item) => (
+                        <li key={item} className="chip">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                )
+              })}
+            </div>
+
+            <div className="split">
+              <div data-reveal>
+                <h3 className="sub-title">{t('competencies.title')}</h3>
+                <ol className="numbered">
+                  {content.competencies.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ol>
+              </div>
+              <div data-reveal style={{ '--reveal-delay': '120ms' } as CSSProperties}>
+                <h3 className="sub-title">{t('highlights.title')}</h3>
+                <ul className="highlights">
+                  {content.highlights.map((item) => (
+                    <li key={item} className="highlight">
+                      <Asterisk size={20} aria-hidden />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="experiencia" className="section" aria-labelledby="xp-title">
+          <div className="section__inner">
+            <div className="section-head" data-reveal>
+              <div>
+                <p className="eyebrow">03 / {t('nav.experience')}</p>
+                <h2 id="xp-title" className="section-title">
+                  {t('experience.title')}
+                </h2>
+              </div>
+            </div>
+
+            <ol className="xp">
+              {content.experiences.map((exp, i) => (
+                <li key={exp.id} className="xp__item" data-reveal>
+                  <div className="xp__side">
+                    <span className="xp__num">{pad(i + 1)}</span>
+                    <span className="xp__company">{exp.company}</span>
+                    <span className="xp__period">{exp.period}</span>
+                  </div>
+                  <div>
+                    <h3 className="xp__role">{exp.role}</h3>
+                    <ul className="xp__list">
                       {exp.items.map((line) => (
                         <li key={line}>{line}</li>
                       ))}
                     </ul>
-                  </article>
+                  </div>
                 </li>
               ))}
             </ol>
           </div>
         </section>
 
-        <section id="formacao" className="section section--alt">
+        <section
+          id="formacao"
+          className="section section--tight"
+          aria-labelledby="edu-title"
+        >
           <div className="section__inner">
-            <h2 className="section__title">{t('education.title')}</h2>
-            <article className="card edu-card">
-              <h3>{content.education.degree}</h3>
-              <p className="edu-card__school">{content.education.school}</p>
-              <span className="edu-card__status">{content.education.status}</span>
+            <p className="eyebrow" data-reveal>
+              04 / {t('nav.education')}
+            </p>
+            <article className="edu inverse" data-reveal>
+              <span className="edu__icon" aria-hidden>
+                <GraduationCap size={30} />
+              </span>
+              <div>
+                <h2 id="edu-title" className="edu__degree">
+                  {content.education.degree}
+                </h2>
+                <p className="edu__school">{content.education.school}</p>
+              </div>
+              <span className="edu__status">
+                <span className="status__dot" aria-hidden />
+                {content.education.status}
+              </span>
+              <span className="edu__watermark" aria-hidden>
+                {content.education.school}
+              </span>
             </article>
           </div>
         </section>
 
-        <section id="projetos" className="section">
+        <section
+          id="projetos"
+          className="section section--muted"
+          aria-labelledby="projects-title"
+        >
           <div className="section__inner">
-            <h2 className="section__title">{t('projects.title')}</h2>
-            <div className="project-grid">
-              {projectItems.map((p) => (
-                <button
-                  key={p.id}
-                  id={`project-trigger-${p.id}`}
-                  type="button"
-                  className="card project-card"
-                  aria-haspopup="dialog"
-                  aria-expanded={activeProjectId === p.id}
-                  aria-controls="project-dialog"
-                  onClick={() => setActiveProjectId(p.id)}
-                >
-                  <div className="project-card__media">
-                    <img
-                      src={p.image}
-                      alt={p.imageAlt}
-                      width={800}
-                      height={450}
-                      loading="lazy"
-                      decoding="async"
-                      className="project-card__img"
-                      onError={onProjectCardImageError}
-                    />
-                  </div>
-                  <div className="project-card__meta">
-                    <h3>{p.name}</h3>
-                    <span className="project-card__link">
-                      {t('projects.cardHint')} →
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-            <p className="projects-more">
-              <a href={content.links.github} target="_blank" rel="noreferrer noopener">
-                {t('projects.moreGithub')}
-              </a>
-            </p>
-          </div>
-        </section>
-
-        <section id="contato" className="section section--alt contact">
-          <div className="section__inner">
-            <h2 className="section__title">{t('contact.title')}</h2>
-            <p className="contact__subtitle">{t('contact.subtitle')}</p>
-            <div className="contact__grid">
+            <div className="section-head" data-reveal>
+              <div>
+                <p className="eyebrow">05 / {t('nav.projects')}</p>
+                <h2 id="projects-title" className="section-title">
+                  {t('projects.title')}
+                </h2>
+              </div>
               <a
-                className="card contact-card"
-                href={`mailto:${content.links.email}`}
-              >
-                <Mail size={22} aria-hidden />
-                <span className="contact-card__label">{t('contact.email')}</span>
-                <span className="contact-card__value">{content.links.email}</span>
-              </a>
-              <a
-                className="card contact-card"
+                className="btn btn--ghost projects-more"
                 href={content.links.github}
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                <Github size={22} aria-hidden />
-                <span className="contact-card__label">{t('contact.github')}</span>
-                <span className="contact-card__value">github.com</span>
-              </a>
-              <a
-                className="card contact-card"
-                href={content.links.linkedin}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <Linkedin size={22} aria-hidden />
-                <span className="contact-card__label">
-                  {t('contact.linkedin')}
-                </span>
-                <span className="contact-card__value">LinkedIn</span>
+                <Github size={18} aria-hidden />
+                {t('projects.moreGithub')}
+                <ArrowUpRight size={16} aria-hidden />
               </a>
             </div>
+
+            <div className="projects-grid">
+              {projects.map((p, i) => (
+                <button
+                  key={p.id}
+                  id={`project-trigger-${p.id}`}
+                  type="button"
+                  className="project-card"
+                  aria-haspopup="dialog"
+                  aria-expanded={activeProjectId === p.id}
+                  aria-controls={activeProjectId === p.id ? 'project-dialog' : undefined}
+                  aria-label={`${p.name} — ${t('projects.cardHint')}`}
+                  onClick={() => setActiveProjectId(p.id)}
+                  data-reveal
+                  style={{ '--reveal-delay': `${(i % 3) * 80}ms` } as CSSProperties}
+                >
+                  <span className="project-card__media">
+                    <img
+                      src={p.image}
+                      alt={p.imageAlt}
+                      width={800}
+                      height={500}
+                      loading="lazy"
+                      decoding="async"
+                      onError={onProjectImageError}
+                    />
+                    <span className="project-card__index">{pad(i + 1)}</span>
+                  </span>
+                  <span className="project-card__body">
+                    <span className="project-card__text">
+                      <span className="project-card__name">{p.name}</span>
+                      <span className="project-card__desc">{p.desc}</span>
+                      <span className="project-card__stack">
+                        {p.languages.slice(0, 4).map((lang) => (
+                          <span key={lang} className="chip chip--sm">
+                            {lang}
+                          </span>
+                        ))}
+                      </span>
+                    </span>
+                    <span className="project-card__arrow" aria-hidden>
+                      <ArrowUpRight size={20} />
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="contato" className="contact inverse" aria-labelledby="contact-title">
+          <div className="section__inner">
+            <p className="eyebrow" data-reveal>
+              06 / {t('nav.contact')}
+            </p>
+            <h2 id="contact-title" className="contact__headline" data-reveal>
+              {t('contact.headlineA')} <em>{t('contact.headlineB')}</em>
+            </h2>
+            <p className="contact__subtitle" data-reveal>
+              {t('contact.subtitle')}
+            </p>
+
+            <div className="contact__email-row" data-reveal>
+              <a className="contact__email" href={`mailto:${content.links.email}`}>
+                <Mail size={28} aria-hidden />
+                {content.links.email}
+              </a>
+              <button type="button" className="btn btn--ghost" onClick={copyEmail}>
+                {copied ? <Check size={16} aria-hidden /> : <Copy size={16} aria-hidden />}
+                <span aria-live="polite">
+                  {copied ? t('contact.copied') : t('contact.copy')}
+                </span>
+              </button>
+            </div>
+
+            <ul className="social" data-reveal>
+              <li>
+                <a href={content.links.github} target="_blank" rel="noreferrer noopener">
+                  <span>
+                    <Github size={20} aria-hidden />
+                    {t('contact.github')}
+                  </span>
+                  <ArrowUpRight size={20} aria-hidden />
+                </a>
+              </li>
+              <li>
+                <a href={content.links.linkedin} target="_blank" rel="noreferrer noopener">
+                  <span>
+                    <Linkedin size={20} aria-hidden />
+                    {t('contact.linkedin')}
+                  </span>
+                  <ArrowUpRight size={20} aria-hidden />
+                </a>
+              </li>
+              <li>
+                <a href={content.links.cvPdf} download="Otávio_Currículo.pdf">
+                  <span>
+                    <Download size={20} aria-hidden />
+                    {t('hero.ctaCv')}
+                  </span>
+                  <ArrowUpRight size={20} aria-hidden />
+                </a>
+              </li>
+            </ul>
           </div>
         </section>
       </main>
 
-      {activeProject ? (
-        <>
-          <div
-            className="project-modal-backdrop"
-            aria-hidden
-            onClick={closeProjectModal}
-          />
-          <div
-            id="project-dialog"
-            className="project-modal card"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="project-modal-title"
-          >
-            <header className="project-modal__head">
-              <h2 id="project-modal-title" className="project-modal__title">
-                {activeProject.name}
-              </h2>
-              <button
-                ref={projectModalCloseRef}
-                type="button"
-                className="icon-btn project-modal__close"
-                onClick={closeProjectModal}
-                aria-label={t('projects.modal.close')}
-              >
-                <X size={22} strokeWidth={2} />
-              </button>
-            </header>
-            <div className="project-modal__body">
-              <p className="project-modal__desc">{activeProject.desc}</p>
-
-              <section className="project-modal__block" aria-labelledby="pm-lang">
-                <h3 id="pm-lang" className="project-modal__label">
-                  {t('projects.modal.languages')}
-                </h3>
-                <ul className="project-modal__tags">
-                  {activeProject.languages.map((lang) => (
-                    <li key={lang}>{lang}</li>
-                  ))}
-                </ul>
-              </section>
-
-              <section className="project-modal__block" aria-labelledby="pm-links">
-                <h3 id="pm-links" className="project-modal__label">
-                  {t('projects.modal.links')}
-                </h3>
-                <div className="project-modal__links">
-                  <a
-                    className="btn btn--ghost project-modal__ext"
-                    href={activeProject.github.trim() || content.links.github}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    <Github size={18} aria-hidden />
-                    {t('projects.modal.linkGithub')}
-                    <ExternalLink size={16} className="project-modal__ext-ico" aria-hidden />
-                  </a>
-                  {activeProject.site.trim() ? (
-                    <a
-                      className="btn btn--ghost project-modal__ext"
-                      href={activeProject.site.trim()}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      {t('projects.modal.linkSite')}
-                      <ExternalLink size={16} className="project-modal__ext-ico" aria-hidden />
-                    </a>
-                  ) : null}
-                </div>
-              </section>
-
-              <section className="project-modal__block" aria-labelledby="pm-insp">
-                <h3 id="pm-insp" className="project-modal__label">
-                  {t('projects.modal.inspiration')}
-                </h3>
-                <p className="project-modal__inspiration">{activeProject.inspiration}</p>
-              </section>
-            </div>
-          </div>
-        </>
-      ) : null}
-
-      <footer className="footer">
-        <p>{t('footer.built')}</p>
-        <p className="footer__name">© {new Date().getFullYear()} Otávio Morais Antocevicz</p>
+      <footer className="footer inverse">
+        <div className="footer__row">
+          <span>
+            © {year} {FULL_NAME}
+          </span>
+          <span>{t('footer.built')}</span>
+          <a className="footer__top" href="#inicio">
+            {t('footer.backToTop')}
+            <ArrowUp size={14} aria-hidden />
+          </a>
+        </div>
+        <p className="footer__giant" aria-hidden>
+          Otávio<em>.</em>
+        </p>
       </footer>
+
+      {activeProject ? (
+        <ProjectModal
+          project={activeProject}
+          index={activeIndex}
+          fallbackGithub={content.links.github}
+          onClose={closeProjectModal}
+        />
+      ) : null}
     </div>
   )
 }
-
