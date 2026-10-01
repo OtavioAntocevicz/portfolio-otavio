@@ -654,12 +654,17 @@ export function PortfolioPage() {
                 <Mail size={28} aria-hidden />
                 {content.links.email}
               </a>
-              <button type="button" className="btn btn--ghost" onClick={copyEmail}>
+              <button
+                type="button"
+                className={`btn btn--ghost contact__copy${copied ? ' is-copied' : ''}`}
+                onClick={copyEmail}
+              >
                 {copied ? <Check size={16} aria-hidden /> : <Copy size={16} aria-hidden />}
-                <span aria-live="polite">
-                  {copied ? t('contact.copied') : t('contact.copy')}
-                </span>
+                {copied ? t('contact.copied') : t('contact.copy')}
               </button>
+              <span className="sr-only" aria-live="polite">
+                {copied ? t('contact.copied') : ''}
+              </span>
             </div>
 
             <ul className="social" data-reveal>

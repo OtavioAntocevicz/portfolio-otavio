@@ -1552,6 +1552,17 @@
   flex-shrink: 0;
 }
 
+.contact__copy {
+  min-width: 10rem;
+  justify-content: center;
+}
+
+.contact__copy.is-copied {
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
 .social {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
