@@ -13,6 +13,7 @@ import {
   Menu,
   Moon,
   Server,
+  Shield,
   Sparkles,
   Sun,
   Workflow,
@@ -41,6 +42,7 @@ import { useReveal } from '../hooks/useReveal.ts'
 import { useScrollLock } from '../hooks/useScrollLock.ts'
 import { useScrollSpy } from '../hooks/useScrollSpy.ts'
 import { setStoredLanguage } from '../i18n.ts'
+import { mergeMarqueeSkills, SHOWCASE_CATEGORIES, showcaseItems } from '../data/showcaseTech.ts'
 import { setPageMeta } from '../setPageMeta.ts'
 import '../styles/portfolio.css'
 
@@ -214,6 +216,14 @@ export function PortfolioPage() {
     [skillGroups],
   )
 
+  const marqueeSkills = useMemo(
+    () => mergeMarqueeSkills(allSkills, lng),
+    [allSkills, lng],
+  )
+
+  const showcaseCount = showcaseItems().length
+  const stackCount = marqueeSkills.length
+
   const statement = splitStatement(content.aboutText)
   const projects = content.projects
   const activeIndex = projects.findIndex((p) => p.id === activeProjectId)
@@ -377,7 +387,7 @@ export function PortfolioPage() {
             </div>
           </div>
 
-          {allSkills.length > 0 ? (
+          {marqueeSkills.length > 0 ? (
             <div className="marquee">
               <div className="marquee__track">
                 {[0, 1].map((copy) => (
@@ -386,8 +396,8 @@ export function PortfolioPage() {
                     className="marquee__group"
                     aria-hidden={copy === 1 ? true : undefined}
                   >
-                    {allSkills.map((skill) => (
-                      <li key={skill} className="marquee__item">
+                    {marqueeSkills.map((skill) => (
+                      <li key={`${copy}-${skill}`} className="marquee__item">
                         {skill}
                       </li>
                     ))}
@@ -411,23 +421,31 @@ export function PortfolioPage() {
             </p>
             <dl className="stats" data-reveal>
               <div className="stat">
-                <dt>{t('about.stats.experiences')}</dt>
                 <dd>
                   <CountUp value={content.experiences.length} />
                 </dd>
+                <dt>{t('about.stats.experiences')}</dt>
               </div>
               <div className="stat">
-                <dt>{t('about.stats.projects')}</dt>
                 <dd>
                   <CountUp value={projects.length} />
                 </dd>
+                <dt>{t('about.stats.projects')}</dt>
               </div>
               <div className="stat">
-                <dt>{t('about.stats.tech')}</dt>
                 <dd>
-                  <CountUp value={allSkills.length} />
+                  <CountUp value={stackCount} />
                   <em>+</em>
                 </dd>
+                <dt>{t('about.stats.tech')}</dt>
+                <p className="stat__hint">{t('about.stats.techHint')}</p>
+              </div>
+              <div className="stat">
+                <dd>
+                  <CountUp value={showcaseCount} />
+                </dd>
+                <dt>{t('about.stats.platforms')}</dt>
+                <p className="stat__hint">{t('about.stats.platformsHint')}</p>
               </div>
             </dl>
           </div>
@@ -475,6 +493,35 @@ export function PortfolioPage() {
                 )
               })}
             </div>
+
+            <article
+              className="skill-tile skill-tile--wide skill-tile--inverse"
+              data-reveal
+              style={{ '--reveal-delay': '320ms' } as CSSProperties}
+            >
+              <div className="skill-tile__head">
+                <span className="skill-tile__icon" aria-hidden>
+                  <Shield size={20} />
+                </span>
+                <span>{t('skills.ecosystem')}</span>
+              </div>
+              <div className="spotlight-grid">
+                {SHOWCASE_CATEGORIES.map((cat) => (
+                  <div key={cat.id} className="spotlight-col">
+                    <h4 className="sub-title">
+                      {lng === 'en' ? cat.labelEn : cat.labelPt}
+                    </h4>
+                    <ul className="chips">
+                      {cat.items.map((item) => (
+                        <li key={item} className="chip">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </article>
 
             <div className="split">
               <div data-reveal>

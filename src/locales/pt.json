@@ -40,7 +40,10 @@
     "stats": {
       "experiences": "Experiências profissionais",
       "projects": "Projetos em destaque",
-      "tech": "Tecnologias na stack"
+      "tech": "Tecnologias na stack",
+      "techHint": "React · TypeScript · Python · automação",
+      "platforms": "Cloud, CLI & segurança",
+      "platformsHint": "Supabase · Railway · MCP · Cursor CLI · OWASP"
     }
   },
   "skills": {
@@ -53,7 +56,8 @@
     "automation": "Automação e dados",
     "automationList": "Python, Power BI, análise de dados, n8n",
     "other": "Outros",
-    "otherList": "Git/GitHub, Pacote Office, GitFlow, metodologias ágeis, IA, FlutterFlow, WordPress"
+    "otherList": "Git/GitHub, Pacote Office, GitFlow, metodologias ágeis, IA, FlutterFlow, WordPress",
+    "ecosystem": "Ecossistema em destaque"
   },
   "competencies": {
     "title": "Habilidades e competências",
