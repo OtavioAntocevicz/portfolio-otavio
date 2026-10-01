@@ -1,4 +1,4 @@
-# Portfólio Otávio — com CMS
+# Portfólio Otávio - com CMS
 
 Site de portfólio em React + Vite, com painel em `/editor` para editar currículo e projetos via Supabase.
 
@@ -24,7 +24,7 @@ O ambiente de **desenvolvimento** (`portfolio-otavio-dev`) já vem embutido no c
 1. Abra `/editor/login`
 2. Clique em **Criar conta** e registre seu e-mail e senha
 3. Se o Supabase exigir confirmação de e-mail, confirme e faça login
-4. Edite o conteúdo e salve — o site público lê do mesmo banco
+4. Edite o conteúdo e salve - o site público lê do mesmo banco
 
 ### Tradução PT → EN
 

@@ -30,11 +30,21 @@
     "role": "Front-end Developer",
     "ctaProjects": "View projects",
     "ctaContact": "Get in touch",
-    "ctaCv": "Download résumé"
+    "ctaCv": "Download résumé",
+    "localTime": "Local time",
+    "scroll": "Go to About"
   },
   "about": {
     "title": "About",
-    "text": "Front-end developer with 5 years of experience in modern technologies such as React.js, Vue.js, Node.js, and more. Passionate about learning and building innovative solutions, I have worked on personal and professional projects that showcase my skills in web development and process automation."
+    "text": "Front-end developer with 5 years of experience in modern technologies such as React.js, Vue.js, Node.js, and more. Passionate about learning and building innovative solutions, I have worked on personal and professional projects that showcase my skills in web development and process automation.",
+    "stats": {
+      "experiences": "Professional roles",
+      "projects": "Featured projects",
+      "tech": "Technologies in my stack",
+      "techHint": "React · TypeScript · Python · automation",
+      "platforms": "Cloud, CLI & security",
+      "platformsHint": "Supabase · Railway · MCP · Cursor CLI · OWASP"
+    }
   },
   "skills": {
     "title": "Technologies & tools",
@@ -46,7 +56,8 @@
     "automation": "Automation & data",
     "automationList": "Python, Power BI, data analysis, n8n",
     "other": "Other",
-    "otherList": "Git/GitHub, Microsoft Office, GitFlow, agile methodologies, AI, FlutterFlow, WordPress"
+    "otherList": "Git/GitHub, Microsoft Office, GitFlow, agile methodologies, AI, FlutterFlow, WordPress",
+    "ecosystem": "Featured ecosystem"
   },
   "competencies": {
     "title": "Skills & competencies",
@@ -120,9 +131,14 @@
     "phone": "Phone / WhatsApp",
     "whatsapp": "WhatsApp",
     "github": "GitHub",
-    "linkedin": "LinkedIn"
+    "linkedin": "LinkedIn",
+    "headlineA": "Let’s build",
+    "headlineB": "something together?",
+    "copy": "Copy email",
+    "copied": "Copied!"
   },
   "footer": {
-    "built": "Built with React and Vite"
+    "built": "Built with React and Vite",
+    "backToTop": "Back to top"
   }
 }
