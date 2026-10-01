@@ -342,7 +342,7 @@ export function PortfolioPage() {
                 {content.heroBadge}
               </span>
               <span>
-                {t('hero.localTime')} — <LocalClock locale={locale} />
+                {t('hero.localTime')} - <LocalClock locale={locale} />
               </span>
             </div>
 
@@ -645,7 +645,7 @@ export function PortfolioPage() {
                   aria-haspopup="dialog"
                   aria-expanded={activeProjectId === p.id}
                   aria-controls={activeProjectId === p.id ? 'project-dialog' : undefined}
-                  aria-label={`${p.name} — ${t('projects.cardHint')}`}
+                  aria-label={`${p.name} - ${t('projects.cardHint')}`}
                   onClick={() => setActiveProjectId(p.id)}
                   data-reveal
                   style={{ '--reveal-delay': `${(i % 3) * 80}ms` } as CSSProperties}

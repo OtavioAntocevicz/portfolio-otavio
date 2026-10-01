@@ -1,4 +1,4 @@
-/** Itens extras no front (teste visual) — não vêm do CMS. */
+/** Itens extras no front (teste visual) - não vêm do CMS. */
 export type ShowcaseCategory = {
   id: string
   labelPt: string

@@ -35,7 +35,7 @@
   --text-subtle: #857f71;
   --border: #d9d3c4;
   --border-strong: #b9b09c;
-  /* Athletico-PR — Pantone 186 C · #C8102E · RGB(200, 16, 46) */
+  /* Athletico-PR - Pantone 186 C · #C8102E · RGB(200, 16, 46) */
   --accent: #c8102e;
   --accent-hover: #a00d25;
   --accent-contrast: #ffffff;
@@ -65,17 +65,17 @@
   --text-subtle: #6f6b61;
   --border: #292824;
   --border-strong: #3d3b34;
-  --accent: #ff2a33;
-  --accent-hover: #ff4d55;
+  --accent: #c8102e;
+  --accent-hover: #e0163a;
   --accent-contrast: #ffffff;
-  --accent-soft: rgba(255, 42, 51, 0.16);
-  --accent-glow: rgba(227, 6, 19, 0.45);
-  --accent-on-inverse: #e30613;
+  --accent-soft: rgba(200, 16, 46, 0.18);
+  --accent-glow: rgba(200, 16, 46, 0.42);
+  --accent-on-inverse: #c8102e;
   --accent-contrast-on-inverse: #ffffff;
   --signal: #4ade80;
   --grid-line: rgba(243, 240, 231, 0.05);
-  --orb-1: rgba(227, 6, 19, 0.32);
-  --orb-2: rgba(255, 42, 51, 0.18);
+  --orb-1: rgba(200, 16, 46, 0.28);
+  --orb-2: rgba(200, 16, 46, 0.14);
   --grain-opacity: 0.07;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 16px 48px -16px rgba(0, 0, 0, 0.6);
