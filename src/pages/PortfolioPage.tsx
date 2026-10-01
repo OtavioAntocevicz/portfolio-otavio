@@ -217,8 +217,8 @@ export function PortfolioPage() {
   )
 
   const marqueeSkills = useMemo(
-    () => mergeMarqueeSkills(allSkills, lng),
-    [allSkills, lng],
+    () => mergeMarqueeSkills(allSkills),
+    [allSkills],
   )
 
   const showcaseCount = showcaseItems().length

@@ -52,7 +52,7 @@ export function showcaseItems() {
   return SHOWCASE_CATEGORIES.flatMap((c) => c.items)
 }
 
-export function mergeMarqueeSkills(base: string[], _lng: 'pt' | 'en') {
+export function mergeMarqueeSkills(base: string[]) {
   const extra = showcaseItems()
   const seen = new Set<string>()
   const out: string[] = []
