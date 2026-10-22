@@ -26,7 +26,7 @@ O ambiente de **desenvolvimento** (`portfolio-otavio-dev`) já vem embutido no c
 3. Se o Supabase exigir confirmação de e-mail, confirme e faça login
 4. Edite o conteúdo e salve - o site público lê do mesmo banco
 
-Na aba **Listas**, edite também o **Ecossistema em destaque** (Cloud & deploy, DevTools, Cybersecurity). Na aba **Contato**, use **Selecionar e enviar PDF** para publicar o currículo no Supabase Storage (sem precisar copiar o arquivo para `public/`).
+Na aba **Perfil**, abaixo das skills por vírgula, edite o **Ecossistema em destaque** (Cloud & deploy, DevTools, Cybersecurity). Na aba **Contato**, use **Selecionar e enviar PDF** para publicar o currículo no Supabase Storage (sem precisar copiar o arquivo para `public/`).
 
 ### Tradução PT → EN
 

@@ -269,11 +269,20 @@ export function EditorDashboard() {
             </div>
           ))}
 
+          <ShowcaseCategoriesEditor lists={bundle.lists} onChange={updateShowcaseList} />
+
           <button
             type="button"
             className="btn btn--primary"
             disabled={saving}
-            onClick={() => void withSave(() => saveSettings(s), 'Perfil salvo!')}
+            onClick={() =>
+              void withSave(async () => {
+                await saveSettings(s)
+                for (const row of showcaseListsForSave()) {
+                  await saveContentList(row)
+                }
+              }, 'Perfil e skills salvos!')
+            }
           >
             <Save size={16} /> Salvar perfil
           </button>
@@ -388,7 +397,6 @@ export function EditorDashboard() {
             onChangePt={(items) => updateList('highlights', { items_pt: items })}
             onChangeEn={(items) => updateList('highlights', { items_en: items })}
           />
-          <ShowcaseCategoriesEditor lists={bundle.lists} onChange={updateShowcaseList} />
           <button
             type="button"
             className="btn btn--primary"
@@ -397,9 +405,6 @@ export function EditorDashboard() {
               void withSave(async () => {
                 await saveContentList(competencies)
                 await saveContentList(highlights)
-                for (const row of showcaseListsForSave()) {
-                  await saveContentList(row)
-                }
               }, 'Listas salvas!')
             }
           >
