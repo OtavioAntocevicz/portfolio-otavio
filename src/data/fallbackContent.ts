@@ -1,4 +1,5 @@
 import { profileLinks } from './links.ts'
+import { getDefaultShowcaseLists, resolveShowcaseCategories } from './showcaseTech.ts'
 import projectsEn from './projects.en.json'
 import projectsPtBr from './projects.pt-br.json'
 import en from '../locales/en.json'
@@ -75,6 +76,7 @@ export function getFallbackBundle(): PortfolioBundle {
   const lists: ContentListRow[] = [
     { id: 'competencies', items_pt: pt.competencies.items, items_en: en.competencies.items },
     { id: 'highlights', items_pt: pt.highlights.items, items_en: en.highlights.items },
+    ...getDefaultShowcaseLists(),
   ]
 
   const projects: ProjectRow[] = projectsPtBr.map((p, i) => {
@@ -137,6 +139,7 @@ export function bundleToView(bundle: PortfolioBundle, lng: 'pt' | 'en'): Portfol
     },
     competencies,
     highlights,
+    showcaseCategories: resolveShowcaseCategories(bundle.lists, lng),
     experiences: bundle.experiences
       .slice()
       .sort((a, b) => a.sort_order - b.sort_order)
