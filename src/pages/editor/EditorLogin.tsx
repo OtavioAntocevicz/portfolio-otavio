@@ -5,7 +5,6 @@ import './Editor.css'
 
 export function EditorLogin() {
   const navigate = useNavigate()
-  const [mode, setMode] = useState<'login' | 'signup'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -22,16 +21,9 @@ export function EditorLogin() {
     setMessage(null)
 
     try {
-      if (mode === 'login') {
-        const { error } = await supabase.auth.signInWithPassword({ email, password })
-        if (error) throw error
-        navigate('/editor', { replace: true })
-      } else {
-        const { error } = await supabase.auth.signUp({ email, password })
-        if (error) throw error
-        setMessage('Conta criada! Se o e-mail exigir confirmação, verifique sua caixa de entrada e depois faça login.')
-        setMode('login')
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) throw error
+      navigate('/editor', { replace: true })
     } catch (err) {
       setMessage(err instanceof Error ? err.message : 'Erro de autenticação')
     } finally {
@@ -46,23 +38,6 @@ export function EditorLogin() {
         <p className="editor-auth__hint">
           Acesso restrito. Use o e-mail cadastrado no Supabase Auth.
         </p>
-
-        <div className="editor-tabs editor-tabs--sm">
-          <button
-            type="button"
-            className={mode === 'login' ? 'is-active' : ''}
-            onClick={() => setMode('login')}
-          >
-            Entrar
-          </button>
-          <button
-            type="button"
-            className={mode === 'signup' ? 'is-active' : ''}
-            onClick={() => setMode('signup')}
-          >
-            Criar conta
-          </button>
-        </div>
 
         <form className="editor-form" onSubmit={(e) => void onSubmit(e)}>
           <label className="editor-label" htmlFor="email">E-mail</label>
@@ -81,7 +56,7 @@ export function EditorLogin() {
             id="password"
             className="editor-input"
             type="password"
-            autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             minLength={6}
@@ -91,7 +66,7 @@ export function EditorLogin() {
           {message ? <p className="editor-message">{message}</p> : null}
 
           <button type="submit" className="btn btn--primary editor-submit" disabled={loading}>
-            {loading ? 'Aguarde…' : mode === 'login' ? 'Entrar' : 'Criar conta'}
+            {loading ? 'Aguarde…' : 'Entrar'}
           </button>
         </form>
       </div>
