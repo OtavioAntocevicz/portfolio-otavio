@@ -88,10 +88,6 @@ export function resolveShowcaseCategories(
   })
 }
 
-export function showcaseItemsFromLists(lists: ContentListRow[]) {
-  return resolveShowcaseCategories(lists, 'pt').flatMap((c) => c.items)
-}
-
 export function mergeMarqueeSkills(base: string[], extraItems: string[]) {
   const extra = extraItems
   const seen = new Set<string>()

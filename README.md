@@ -26,6 +26,8 @@ O ambiente de **desenvolvimento** (`portfolio-otavio-dev`) já vem embutido no c
 3. Se o Supabase exigir confirmação de e-mail, confirme e faça login
 4. Edite o conteúdo e salve - o site público lê do mesmo banco
 
+Na aba **Listas**, edite também o **Ecossistema em destaque** (Cloud & deploy, DevTools, Cybersecurity). Na aba **Contato**, use **Selecionar e enviar PDF** para publicar o currículo no Supabase Storage (sem precisar copiar o arquivo para `public/`).
+
 ### Tradução PT → EN
 
 Nos campos com botão **Traduzir para EN**, a tradução usa a Edge Function `translate` (MyMemory gratuito). Para melhor qualidade, adicione `DEEPL_API_KEY` nos [Secrets do Supabase](https://supabase.com/dashboard/project/ubcebtzlsbobmxjjsoqy/settings/functions).
@@ -40,6 +42,8 @@ Na branch de preview / produção, configure as variáveis:
 Valores em `.env.example`. O `vercel.json` já faz rewrite SPA para `/editor`.
 
 **Produção (`main`)**: use um projeto Supabase separado (prod) quando for fazer merge. Enquanto valida, use apenas a preview desta branch.
+
+Migração opcional em produção: `supabase/migrations/20261022_content_lists_labels_and_portfolio_storage.sql` (labels nas listas + bucket `portfolio-assets` para o PDF).
 
 ## Scripts
 
