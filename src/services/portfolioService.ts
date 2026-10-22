@@ -1,6 +1,15 @@
 import { getFallbackBundle, bundleToView } from '../data/fallbackContent.ts'
 import { isSupabaseConfigured, supabase } from '../lib/supabase.ts'
-import type { PortfolioBundle, PortfolioView } from '../types/cms.ts'
+import type { ContentListRow, PortfolioBundle, PortfolioView } from '../types/cms.ts'
+
+function mergeContentLists(dbLists: ContentListRow[], fallbackLists: ContentListRow[]) {
+  const map = new Map(fallbackLists.map((l) => [l.id, { ...l }]))
+  for (const row of dbLists) {
+    const base = map.get(row.id)
+    map.set(row.id, base ? { ...base, ...row } : row)
+  }
+  return Array.from(map.values())
+}
 
 function parseJsonArray(value: unknown): string[] {
   if (Array.isArray(value)) return value.map(String)
@@ -45,7 +54,7 @@ export async function fetchPortfolioBundle(): Promise<PortfolioBundle> {
     return {
       settings: settingsRes.data,
       experiences: experiences.length ? experiences : fallback.experiences,
-      lists: lists.length ? lists : fallback.lists,
+      lists: mergeContentLists(lists, fallback.lists),
       projects: projects.length ? projects : fallback.projects,
     }
   } catch {

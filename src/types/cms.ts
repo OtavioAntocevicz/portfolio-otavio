@@ -44,6 +44,8 @@ export type ExperienceRow = {
 
 export type ContentListRow = {
   id: string
+  label_pt?: string | null
+  label_en?: string | null
   items_pt: string[]
   items_en: string[]
   updated_at?: string
@@ -117,6 +119,11 @@ export type PortfolioView = {
   links: ProfileLinks
   competencies: string[]
   highlights: string[]
+  showcaseCategories: {
+    id: string
+    label: string
+    items: string[]
+  }[]
   experiences: ExperienceView[]
   projects: ProjectView[]
 }

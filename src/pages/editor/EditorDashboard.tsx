@@ -1,8 +1,11 @@
 import { LogOut, Save } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import { CvPdfUpload } from '../../components/editor/CvPdfUpload.tsx'
+import { ShowcaseCategoriesEditor } from '../../components/editor/ShowcaseCategoriesEditor.tsx'
 import { StringListEditor } from '../../components/editor/StringListEditor.tsx'
 import { TranslateField } from '../../components/editor/TranslateField.tsx'
+import { SHOWCASE_CATEGORY_DEFS, getDefaultShowcaseLists } from '../../data/showcaseTech.ts'
 import { supabase } from '../../lib/supabase.ts'
 import {
   deleteExperience,
@@ -102,6 +105,33 @@ export function EditorDashboard() {
     setBundle({
       ...bundle,
       lists: bundle.lists.map((l) => (l.id === id ? { ...l, ...patch } : l)),
+    })
+
+  const updateShowcaseList = (listId: string, patch: Partial<ContentListRow>) => {
+    const exists = bundle.lists.some((l) => l.id === listId)
+    if (!exists) {
+      const def = getDefaultShowcaseLists().find((l) => l.id === listId)
+      const base = def ?? {
+        id: listId,
+        label_pt: '',
+        label_en: '',
+        items_pt: [''],
+        items_en: [''],
+      }
+      setBundle({
+        ...bundle,
+        lists: [...bundle.lists, { ...base, ...patch }],
+      })
+      return
+    }
+    updateList(listId, patch)
+  }
+
+  const showcaseListsForSave = () =>
+    SHOWCASE_CATEGORY_DEFS.map((def) => {
+      const row = bundle.lists.find((l) => l.id === def.listId)
+      const fallback = getDefaultShowcaseLists().find((l) => l.id === def.listId)!
+      return row ?? fallback
     })
 
   const updateExperience = (id: string, patch: Partial<ExperienceRow>) =>
@@ -239,11 +269,20 @@ export function EditorDashboard() {
             </div>
           ))}
 
+          <ShowcaseCategoriesEditor lists={bundle.lists} onChange={updateShowcaseList} />
+
           <button
             type="button"
             className="btn btn--primary"
             disabled={saving}
-            onClick={() => void withSave(() => saveSettings(s), 'Perfil salvo!')}
+            onClick={() =>
+              void withSave(async () => {
+                await saveSettings(s)
+                for (const row of showcaseListsForSave()) {
+                  await saveContentList(row)
+                }
+              }, 'Perfil e skills salvos!')
+            }
           >
             <Save size={16} /> Salvar perfil
           </button>
@@ -416,6 +455,13 @@ export function EditorDashboard() {
                   }
                 />
                 <TranslateField
+                  label="Texto alternativo da imagem"
+                  valuePt={p.image_alt_pt}
+                  valueEn={p.image_alt_en}
+                  onChangePt={(v) => updateProject(p.id, { image_alt_pt: v })}
+                  onChangeEn={(v) => updateProject(p.id, { image_alt_en: v })}
+                />
+                <TranslateField
                   label="Descrição"
                   valuePt={p.desc_pt}
                   valueEn={p.desc_en}
@@ -507,6 +553,13 @@ export function EditorDashboard() {
             value={s.phone_display}
             onChange={(e) => updateSettings({ phone_display: e.target.value })}
           />
+          <label className="editor-label">Telefone (link tel:)</label>
+          <input
+            className="editor-input"
+            value={s.phone_tel}
+            onChange={(e) => updateSettings({ phone_tel: e.target.value })}
+            placeholder="+5541999999999"
+          />
           <label className="editor-label">WhatsApp (URL)</label>
           <input
             className="editor-input"
@@ -525,11 +578,21 @@ export function EditorDashboard() {
             value={s.linkedin}
             onChange={(e) => updateSettings({ linkedin: e.target.value })}
           />
-          <label className="editor-label">URL do PDF do currículo</label>
+          <CvPdfUpload
+            currentUrl={s.cv_pdf_url}
+            disabled={saving}
+            onUploaded={(url) => {
+              const next = { ...s, cv_pdf_url: url }
+              updateSettings({ cv_pdf_url: url })
+              void withSave(() => saveSettings(next), 'Currículo enviado!')
+            }}
+          />
+          <label className="editor-label">URL do PDF do currículo (opcional)</label>
           <input
             className="editor-input"
             value={s.cv_pdf_url}
             onChange={(e) => updateSettings({ cv_pdf_url: e.target.value })}
+            placeholder="Preenchido automaticamente após o upload ou use /arquivo.pdf em public/"
           />
           <button
             type="button"

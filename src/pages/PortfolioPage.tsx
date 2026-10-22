@@ -42,7 +42,7 @@ import { useReveal } from '../hooks/useReveal.ts'
 import { useScrollLock } from '../hooks/useScrollLock.ts'
 import { useScrollSpy } from '../hooks/useScrollSpy.ts'
 import { setStoredLanguage } from '../i18n.ts'
-import { mergeMarqueeSkills, SHOWCASE_CATEGORIES, showcaseItems } from '../data/showcaseTech.ts'
+import { mergeMarqueeSkills } from '../data/showcaseTech.ts'
 import { setPageMeta } from '../setPageMeta.ts'
 import '../styles/portfolio.css'
 
@@ -216,12 +216,26 @@ export function PortfolioPage() {
     [skillGroups],
   )
 
-  const marqueeSkills = useMemo(
-    () => mergeMarqueeSkills(allSkills),
-    [allSkills],
+  const showcaseItemsFlat = useMemo(
+    () => content.showcaseCategories.flatMap((c) => c.items),
+    [content.showcaseCategories],
   )
 
-  const showcaseCount = showcaseItems().length
+  const marqueeSkills = useMemo(
+    () => mergeMarqueeSkills(allSkills, showcaseItemsFlat),
+    [allSkills, showcaseItemsFlat],
+  )
+
+  const showcaseCount = showcaseItemsFlat.length
+
+  const cvDownloadName = useMemo(() => {
+    const url = content.links.cvPdf
+    if (!url) return 'curriculo.pdf'
+    const segment = url.split('/').pop()?.split('?')[0]
+    return segment && segment.toLowerCase().endsWith('.pdf')
+      ? decodeURIComponent(segment)
+      : 'Otávio_Currículo.pdf'
+  }, [content.links.cvPdf])
   const stackCount = marqueeSkills.length
 
   const statement = splitStatement(content.aboutText)
@@ -372,7 +386,7 @@ export function PortfolioPage() {
                   <a
                     className="hero__cv"
                     href={content.links.cvPdf}
-                    download="Otávio_Currículo.pdf"
+                    download={cvDownloadName}
                   >
                     <Download size={16} aria-hidden />
                     {t('hero.ctaCv')}
@@ -506,11 +520,9 @@ export function PortfolioPage() {
                 <span>{t('skills.ecosystem')}</span>
               </div>
               <div className="spotlight-grid">
-                {SHOWCASE_CATEGORIES.map((cat) => (
+                {content.showcaseCategories.map((cat) => (
                   <div key={cat.id} className="spotlight-col">
-                    <h4 className="sub-title">
-                      {lng === 'en' ? cat.labelEn : cat.labelPt}
-                    </h4>
+                    <h4 className="sub-title">{cat.label}</h4>
                     <ul className="chips">
                       {cat.items.map((item) => (
                         <li key={item} className="chip">
@@ -734,7 +746,7 @@ export function PortfolioPage() {
                 </a>
               </li>
               <li>
-                <a href={content.links.cvPdf} download="Otávio_Currículo.pdf">
+                <a href={content.links.cvPdf} download={cvDownloadName}>
                   <span>
                     <Download size={20} aria-hidden />
                     {t('hero.ctaCv')}
