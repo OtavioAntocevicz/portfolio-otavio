@@ -39,8 +39,11 @@ export function ShowcaseCategoriesEditor({ lists, onChange }: Props) {
               label="Itens (chips)"
               itemsPt={row.items_pt}
               itemsEn={row.items_en}
-              onChangePt={(items) => onChange(def.listId, { items_pt: items })}
-              onChangeEn={(items) => onChange(def.listId, { items_en: items })}
+              onChangePt={(items_pt) => onChange(def.listId, { items_pt })}
+              onChangeEn={(items_en) => onChange(def.listId, { items_en })}
+              onChangeBoth={(items_pt, items_en) =>
+                onChange(def.listId, { items_pt, items_en })
+              }
             />
           </article>
         )

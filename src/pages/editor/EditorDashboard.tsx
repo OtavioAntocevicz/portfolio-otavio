@@ -101,30 +101,36 @@ export function EditorDashboard() {
   const updateSettings = (patch: Partial<typeof s>) =>
     setBundle({ ...bundle, settings: { ...s, ...patch } })
 
-  const updateList = (id: string, patch: Partial<ContentListRow>) =>
-    setBundle({
-      ...bundle,
-      lists: bundle.lists.map((l) => (l.id === id ? { ...l, ...patch } : l)),
+  const updateList = (id: string, patch: Partial<ContentListRow>) => {
+    setBundle((prev) => {
+      if (!prev) return prev
+      return {
+        ...prev,
+        lists: prev.lists.map((l) => (l.id === id ? { ...l, ...patch } : l)),
+      }
     })
+  }
 
   const updateShowcaseList = (listId: string, patch: Partial<ContentListRow>) => {
-    const exists = bundle.lists.some((l) => l.id === listId)
-    if (!exists) {
-      const def = getDefaultShowcaseLists().find((l) => l.id === listId)
-      const base = def ?? {
-        id: listId,
-        label_pt: '',
-        label_en: '',
-        items_pt: [''],
-        items_en: [''],
+    setBundle((prev) => {
+      if (!prev) return prev
+      const existing = prev.lists.find((l) => l.id === listId)
+      if (!existing) {
+        const def = getDefaultShowcaseLists().find((l) => l.id === listId)
+        const base = def ?? {
+          id: listId,
+          label_pt: '',
+          label_en: '',
+          items_pt: [''],
+          items_en: [''],
+        }
+        return { ...prev, lists: [...prev.lists, { ...base, ...patch }] }
       }
-      setBundle({
-        ...bundle,
-        lists: [...bundle.lists, { ...base, ...patch }],
-      })
-      return
-    }
-    updateList(listId, patch)
+      return {
+        ...prev,
+        lists: prev.lists.map((l) => (l.id === listId ? { ...l, ...patch } : l)),
+      }
+    })
   }
 
   const showcaseListsForSave = () =>
@@ -134,11 +140,15 @@ export function EditorDashboard() {
       return row ?? fallback
     })
 
-  const updateExperience = (id: string, patch: Partial<ExperienceRow>) =>
-    setBundle({
-      ...bundle,
-      experiences: bundle.experiences.map((e) => (e.id === id ? { ...e, ...patch } : e)),
+  const updateExperience = (id: string, patch: Partial<ExperienceRow>) => {
+    setBundle((prev) => {
+      if (!prev) return prev
+      return {
+        ...prev,
+        experiences: prev.experiences.map((e) => (e.id === id ? { ...e, ...patch } : e)),
+      }
     })
+  }
 
   const updateProject = (id: string, patch: Partial<ProjectRow>) =>
     setBundle({
@@ -320,8 +330,11 @@ export function EditorDashboard() {
                   label="Atividades"
                   itemsPt={exp.items_pt}
                   itemsEn={exp.items_en}
-                  onChangePt={(items) => updateExperience(exp.id, { items_pt: items })}
-                  onChangeEn={(items) => updateExperience(exp.id, { items_en: items })}
+                  onChangePt={(items_pt) => updateExperience(exp.id, { items_pt })}
+                  onChangeEn={(items_en) => updateExperience(exp.id, { items_en })}
+                  onChangeBoth={(items_pt, items_en) =>
+                    updateExperience(exp.id, { items_pt, items_en })
+                  }
                 />
                 <div className="editor-row-actions">
                   <button
@@ -387,15 +400,21 @@ export function EditorDashboard() {
             label="Competências"
             itemsPt={competencies.items_pt}
             itemsEn={competencies.items_en}
-            onChangePt={(items) => updateList('competencies', { items_pt: items })}
-            onChangeEn={(items) => updateList('competencies', { items_en: items })}
+            onChangePt={(items_pt) => updateList('competencies', { items_pt })}
+            onChangeEn={(items_en) => updateList('competencies', { items_en })}
+            onChangeBoth={(items_pt, items_en) =>
+              updateList('competencies', { items_pt, items_en })
+            }
           />
           <StringListEditor
             label="Diferenciais"
             itemsPt={highlights.items_pt}
             itemsEn={highlights.items_en}
-            onChangePt={(items) => updateList('highlights', { items_pt: items })}
-            onChangeEn={(items) => updateList('highlights', { items_en: items })}
+            onChangePt={(items_pt) => updateList('highlights', { items_pt })}
+            onChangeEn={(items_en) => updateList('highlights', { items_en })}
+            onChangeBoth={(items_pt, items_en) =>
+              updateList('highlights', { items_pt, items_en })
+            }
           />
           <button
             type="button"

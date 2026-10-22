@@ -8,6 +8,8 @@ type Props = {
   itemsEn: string[]
   onChangePt: (items: string[]) => void
   onChangeEn: (items: string[]) => void
+  /** Atualiza PT e EN numa única operação (evita perder estado em add/remove). */
+  onChangeBoth?: (itemsPt: string[], itemsEn: string[]) => void
 }
 
 export function StringListEditor({
@@ -16,6 +18,7 @@ export function StringListEditor({
   itemsEn,
   onChangePt,
   onChangeEn,
+  onChangeBoth,
 }: Props) {
   const [showEn, setShowEn] = useState(false)
   const [translating, setTranslating] = useState(false)
@@ -33,14 +36,24 @@ export function StringListEditor({
     onChangeEn(next)
   }
 
+  const setItems = (nextPt: string[], nextEn: string[]) => {
+    if (onChangeBoth) {
+      onChangeBoth(nextPt, nextEn)
+      return
+    }
+    onChangePt(nextPt)
+    onChangeEn(nextEn)
+  }
+
   const addItem = () => {
-    onChangePt([...itemsPt, ''])
-    onChangeEn([...itemsEn, ''])
+    setItems([...itemsPt, ''], [...itemsEn, ''])
   }
 
   const removeItem = (index: number) => {
-    onChangePt(itemsPt.filter((_, i) => i !== index))
-    onChangeEn(itemsEn.filter((_, i) => i !== index))
+    setItems(
+      itemsPt.filter((_, i) => i !== index),
+      itemsEn.filter((_, i) => i !== index),
+    )
   }
 
   const onTranslateAll = async () => {
